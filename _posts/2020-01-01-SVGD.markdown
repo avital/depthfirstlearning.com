@@ -1,9 +1,9 @@
 ---
 layout: post
-title:  "Neural ODEs"
-date:   2019-09-23 6:00:00 -0400
-categories: neural-nets
-author: luca
+title:  "Stein Variational Gradient Descent"
+date:   2020-01-06 6:00:00 -0400
+categories: steins-method, stein-variational-gradient-descent, bayesian-inference
+author: bhairav
 blurb: "Neural Ordinary Differentiable Equations (Neural ODEs) are deep learning architectures which combine neural networks and ordinary differentiable equations, providing new models for the familiar litany of tasks ranging from supervised learning to generative modeling to time series forecasting. In this curriculum, we will dive deep into these models with an end goal of implementing them ourselves."
 feedback: true
 ---
@@ -30,11 +30,6 @@ Neural ODEs are neural network models which generalize standard layer to layer p
 In this curriculum, we will go through all the background topics necessary to understand these models. At the end, you should be able to implement neural ODEs and apply them to different tasks.
 
 <br />
-
-# Common resources:
-
-1. Süli & Mayers: [An Introduction to Numerical Analysis](https://www.cambridge.org/core/books/an-introduction-to-numerical-analysis/FD8BCAD7FE68002E2179DFF68B8B7237#).
-2. Quarteroni et al.: [Numerical Mathematics](https://www.springer.com/us/book/9783540346586?token=holiday18&utm_campaign=3_fjp8312_us_dsa_springer_holiday18&gclid=Cj0KCQiAvebhBRD5ARIsAIQUmnlViB7VsUn-2tABSAhIvYaJgSEqmJXD7F4A7EgyDQtY9v_GeUsNif8aArGAEALw_wcB).
 
 # 1 Introduction + Basics Behind Kernelized Stein Discrepancy
   **Motivation**: Before jumping into all the math and methodology, we have to be able to  understand the basics of what’s going on. Most importantly, we will review the basics of measure theory and reproducing kernel hilbert spaces. Measure theory allows us to understand the notion of discrepancy measures between distributions, which we will use later on to quantify the difference between two arbitrary distributions of interest. Our other topic, Reproducing Kernel Hilbert Spaces (RKHS), will serve as the connection between measure theory and a practical machine learning algorithm. With RKHS, we will be able to define and optimize intractable measures which previously, were only useful for theoretical analysis or a restrictive class of functions. These two together set the foundation for defining a tractable Kernelized Stein Discrepancy, which serves as the driving factor behind Stein Variational Gradient Descent. 
@@ -91,7 +86,7 @@ In this curriculum, we will go through all the background topics necessary to un
 
 <br />
 
-# 2 Numerical solution of ODEs - Part 2
+# 2 Stein's Method
   **Motivation**: Most of the theory we will see in this curriculum builds off the general theoretical framework of Stein’s Method, a tool to obtain bounds on distances between distributions. In Machine Learning (as we shall later see), distances between distributions can be used to quantify how well (or poorly) a model is at approximating a certain distribution of interest. We shall start from Stein’s Identity and Operator, while explaining their theoretical significance and working through some proofs to get an understanding of some terms (Stein’s Method, Stein’s Discrepancy) we’ll see in the coming weeks. Lastly, we will discuss why Stein’s Method has historically been a theoretical tool, and hint at how ideas from Week 1 (particularly RKHS) can be used in combination with Stein’s Method to build the tractable discrepancy measure at the center of Week 3’s discussion.
 
   **Topics**:
@@ -128,8 +123,6 @@ In this curriculum, we will go through all the background topics necessary to un
      </details>
 
    3. What’s the difference of the score function introduced in KSD in Section 1 and 2 and the score function we see in last week’s questions?
-Show condition six (in the Kernelized Stein Discrepancy paper) holds through integration by parts.  Optionally, show this with the divergence theorem.
-
    <details><summary>Solution</summary>
    <p>
    </p>
@@ -144,114 +137,98 @@ Show condition six (in the Kernelized Stein Discrepancy paper) holds through int
 
 <br />
 
-# 3 ResNets
-  **Motivation**: The introduction of Residual Networks (ResNets) made it possible to train very deep networks. In this section, we study residual architectures and their properties. We then look into how ResNets approximate ODEs and how this interpretation can motivate neural net architectures and new training approaches.  This is important in order to understand the basic models underlying Neural ODEs and gain some insights into their connection to numerical solutions of ODEs.
+# 3 Kernelized Stein Discrepancy
+  **Motivation**: The main theoretical meat comes from a single 2016 paper titled Kernelized Stein Discrepancy (KSD). KSD takes the powerful Stein’s Identity, and uses RKHS theory to define a tractable discrepancy between a ground truth distribution and samples from an arbitrary one. Most importantly, KSD defines a discrepancy function that does not involve calculating the normalizing constant, allowing it to be much more widely applicable in practical tasks. We will discuss the difference between likelihood-free and likelihood-based methods in machine learning, how this normalization constant proves to be problematic in machine learning, and how KSD allows us to sidestep this issue with a new, tractable discrepancy. KSD will serve as the launch pad for the algorithm at the focus of this curriculum, Stein Variational Gradient Descent. 
 
   **Topics**:
 
-  1. ResNets.
-  2. ResNets and ODEs.
+  1. A Stein Discrepancy
+  2. Goodness of Fit
+  3. Tractable Optimization of the Stein Discrepancy
 
-  **Notes**: In this [class](/assets/nodes_notes/week3.pdf), we defined and briefly discussed residual network architecture. We then looked at a stability notion for ResNets, derived from the connection with discretisation of ODEs, and to a simple way to make such architectures reversible.
+  **Notes**: In this class, with notes in [Colab](https://colab.research.google.com/drive/1V7zpm9U3TCjIM9DxeRWo6IEypDkZObrH) or [PDF - Coming Soon](#), we worked through the Kernelized Stein Discrepancy paper, focusing on the optimization and use cases of such a method.
 
   **Required Reading**:
 
-  1. ResNets: 
-     * [ResNets](https://www.coursera.org/lecture/convolutional-neural-networks/resnets-HAhz9).
-     * [An Overview of ResNet and its Variants](https://towardsdatascience.com/an-overview-of-resnet-and-its-variants-5281e2f56035).
-  2. ResNets and ODEs: 
-     * Sections 1-3 from [Multi-level Residual Networks from Dynamical Systems View](https://arxiv.org/pdf/1710.10348.pdf).
-     * [Reversible Architectures for Arbitrarily Deep Residual Neural Networks](https://arxiv.org/abs/1709.03698).
-     * Invertible ResNets: [The Reversible Residual Network: Backpropagation Without Storing Activations](https://arxiv.org/pdf/1707.04585.pdf)
-     * [Stable Architectures for Deep Neural Networks](https://arxiv.org/pdf/1705.03341.pdf).
+  1. [A Short Introduction to Kernelized Stein Discrepancy](http://www.cs.dartmouth.edu/~qliu/PDF/ksd_short.pdf)
+  2. [ICML 2015 Slides on KSD](https://www.cs.dartmouth.edu/~qliu/PDF/slides_ksd_icml2015.pdf)
+  3. [Kernelized Stein Discrepancy](https://arxiv.org/abs/1602.03253)
+  4. [What is Maximum Mean Discrepancy?](https://stats.stackexchange.com/questions/276497/maximum-mean-discrepancy-distance-distribution)
   
   **Optional Reading**:
 
-  1. The original ResNets paper: [Deep Residual Learning for Image Recognition](https://arxiv.org/abs/1512.03385).
-  2. Another blog post on ResNets: [Understanding and Implementing Architectures of ResNet and ResNeXt for state-of-the-art Image Classification](https://medium.com/@14prakash/understanding-and-implementing-architectures-of-resnet-and-resnext-for-state-of-the-art-image-cf51669e1624).
-  
+  1. [Measuring Sample Quality with Stein’s Method (Similar concurrent result from Lester Mackey)](https://arxiv.org/abs/1506.03039)
+
   **Questions**:
 
-  1. Do you understand why adding ‘residual layers’ should not degrade the network performance?
+  1. Explicitly show why the “note” in the proof of Theorem 3.6 is true. Are there any cases where this doesn’t hold? Why or why not?
      <details><summary>Solution</summary>
      <p>
-     Let 
-     
-     $$x_k = x_{k-1} + f(W_k, x_{k-1})$$
-     
-     be the output of the \(k\)-th layer of a residual net. Then, adding a residual layer consists of considering $$x_{k+1} = x_{k} + f(W_{k+1}, x_{k})$$ instead of \(x_k\). For most common architectures, it holds that \(f(W, x) \equiv 0\) for \(W=0\). This is why adding a layer should not degrade the performances: any residual network with \(k\) layers can be also written as a residual network with \(k+1\) layers, by simply taking \(W_{k+1}=0\). 
      </p>
      </details>
 
-  2. How do the authors of (Multi-level Residual Networks from Dynamical Systems View) explain the phenomena of still having almost as good performances in residual networks when removing a layer?
+  2. In Section 4 of KSD, we can approximate the U-statistic with the V-statistic`. Why is that? And where is the bias incurred in this approximation?
      <details><summary>Solution</summary>
      <p>
-     Viewing the network output as time-step of the forward Euler's method, we have that 
      
-     $$x^{(n+1)}(x_i) = x^{(n)}(x_i) + h F(x^{(n)}(x_i); \theta)$$
-     
-     where \(x^{(n)}(x_i)\) is the output of the \(n\)-th layer of the network evaluated on the input point \(x_i\). Then
-     
-     $$x^{(n+2)}(x_i) = x^{(n)}(x_i) + h F(x^{(n)}(x_i); \theta) + h F(x^{(n+1)}(x_i); \theta)$$
-     
-     Therefore, removing layer \(n+1\) consists of taking
-     
-     $$x^{(n+2)}(x_i) = x^{(n)}(x_i) + h F(x^{(n)}(x_i); \theta)$$
-     
-     instead. As \(h\) is small (and this is motivated by the experiments in Section 3.2), the removed term is small and so is the variation in the output layer. Nevertheless, it must be noticed that this analysis is only based on empirical evaluations.
      </p>
      </details>
 
-  3. Implement your favourite ResNet variant.
-     <details><summary>Example</summary>
+  3. Solve the maximization (Equation 2 of KSD) when the test function f is a linear combination of a finite number of features. What is this particular maximization’s relation to RKHS?
+     <details><summary>Solution</summary>
      <p>
-     See this <a href="https://keras.io/examples/cifar10_resnet/">tutorial</a> for an example of implementation of a ResNet.
      </p>
      </details>
 
 <br />
 
-# 4 Normalising Flows
-  **Motivation**:  In this class, we take a little detour to learn about Normalising Flows. These are used for density estimation and generative modeling, and their implementation is motivated by a discretisation of an ODE. Understanding it at a basic level is necessary to understanding continuous normalizing flows, a central application of neural ODEs.
+# 4 Stein Variational Gradient Descent
+  **Motivation**:  Stein Variational Gradient Descent (SVGD) is a popular, non-parametric Bayesian Inference algorithm that’s been applied to Variational Inference, Reinforcement Learning, GANs, and much more. This week, we study the algorithm in its entirety, building off of last week’s work on KSD, and seeing how viewing KSD from a KL-Divergence-minimization lens induces a powerful, practical algorithm. We discuss the benefits of SVGD over other similar approximators, and look at a practical implementation of the algorithm.
 
   **Topics**:
 
-  1. Normalising Flows.
-  2. End-to-end implementations with neural nets.
+  1. Stein Variational Gradient Descent
+  2. Implementing the Algorithm
   
   **Notes**: In this [class](/assets/nodes_notes/week4.pdf), we defined nomalising flow, starting from the non-parametric form and then deriving their algorithmic (and parametric) implementation. We concluded by discussing some architectures proposed in the literature and their trade-offs.
 
   **Required Reading**:
 
-1. *DE*: [Density Estimation by Dual Ascent of the Log-likelihood](https://math.nyu.edu/faculty/tabak/publications/CMSV8-1-10.pdf) (Skip Section 3).
-  2. [A family of non-parametric density estimation algorithms](https://math.nyu.edu/faculty/tabak/publications/Tabak-Turner.pdf).
-  3. [A post on Normalising flow](http://akosiorek.github.io/ml/2018/04/03/norm_flows.html).
+  1. [SVGD Slides](https://www.cs.dartmouth.edu/~qliu/PDF/steinslides16.pdf)
+  2. [SVGD Paper](https://arxiv.org/abs/1608.04471).
+  3. [Sanyam Kapoor's great notebook on Stein Gradients](https://www.sanyamkapoor.com/machine-learning/stein-gradient/).
   
   **Optional Reading**:
 
-  1. [Variational Inference with Normalizing Flows](https://arxiv.org/pdf/1505.05770.pdf).
-  2. [High-Dimensional Probability Estimation with Deep Density Models](https://arxiv.org/pdf/1302.5125.pdf).
+  1. [SVGD: Theory and Applications](https://www.cs.dartmouth.edu/~qliu/PDF/svgd_aabi2016.pdf).
+  2. [Learning to Sample with Amortized SVGD](https://arxiv.org/abs/1707.06626).
   
   **Questions**:
 
-  1. In *DE*, what is the difference between $$\rho_t$$ and $$\tilde{\rho}_t$$, i.e. what do they represent?
+  1. Compare and contrast the method shown here and MCMC. What are some advantages MCMC still has over SVGD?
      <details><summary>Solution</summary>
      <p>
-     The function \(\tilde{\rho}_t\) is the density of the distribution of the random variable \(\phi_t^{-1}(y)\) where \(y\sim \mu\). The function \(\rho_t\) is the density of the distribution of the random variable \(\phi_t(x)\) where \(x\sim \rho\).
      </p>
      </details>
 
-  2. What is the computational complexity of evaluating a determinant of an $$N\times N$$ matrix, and why is that relevant in this context?
+  2. Prove that the discrepancy in Equation 3 of the Stein Variational Gradient Descent Paper only equals 0 when $p$ and $q$ are equal.
      <details><summary>Solution</summary>
      <p>
-     In general, the cost of computing the determinant of an \(N\times N\) matrix is \(O(N^3)\). To compute densities  transported by normalising flows, we need to compute the determinants of the Jacobians; therefore, an important feature of practical normalising flows, is that the Jacobian structure must allow an efficient computation of its determinant. See this week notes for more discussion on this.  
+
+     </p>
+     </details>
+
+   3. Implement SVGD in your favorite language (see the notes for links to different implementations). Then, let’s take a look at the role of the kernel in SVGD: (a) Remove the repulsive kernel term and observe how particles collapse to modes. (b) Remove the kernel’s contribution in the first term. What happens?	
+     <details><summary>Solution</summary>
+     <p>
+
      </p>
      </details>
 
 <br />
 
-# 5 The Adjoint Method (and Auto-Diff)
-  **Motivation**: The adjoint method is a numerical method for efficiently computing the gradient of a function in numerical optimization problems. Understanding this method is essential to understand how to train ‘continuous depth’ nets. We also review the basics of Automatic Differentiation, which will help us understand the efficiency of the algorithm proposed in the NeuralODE paper. 
+# 5 Stein in Reinforcement Learning
+  **Motivation**: One of the most exciting use cases of SVGD is in reinforcement learning, due to its connection to maximum entropy reinforcement learning. This week, we study two key techniques in reinforcement learning that use SVGD as the underlying mechanism. In reinforcement learning, the target distribution is not known, so we derive gradient updates to our parameters using policy gradients. As we derive the gradient estimators in the maximum-entropy framework of reinforcement learning, we will start to see what benefits SVGD-based methods have. In particular, we will focus on the explore-exploit tradeoff, as well as normalization constants for intractable distributions, and see how SVGD helps us get around complicated problems regarding both. 
 
   **Topics**:
 
@@ -262,101 +239,46 @@ Show condition six (in the Kernelized Stein Discrepancy paper) holds through int
 
   **Required Reading**:
 
-  1. Section 8.7 from *CSE*: [Computational Science and Engineering](http://math.mit.edu/~gs/cse/).
-  2. Sections 2 and 3 from [Automatic Differentiation in Machine Learning: a Survey](http://www.jmlr.org/papers/volume18/17-468/17-468.pdf).
+  1. [Stein Variational Policy Gradient](https://arxiv.org/abs/1704.02399)
+  2. [Reinforcement Learning with Energy-Based Policies](https://arxiv.org/abs/1702.08165)
   
   **Optional Reading**:
 
-  1. [Prof. Steven G. Johnson's notes on adjoint method](http://math.mit.edu/~stevenj/notes.html).
+  1. [A Long Peek into Reinforcement Learning](https://lilianweng.github.io/lil-log/2018/02/19/a-long-peek-into-reinforcement-learning.html)
+  2. [Learning to Draw Samples with Amortized SVGD - Same as W4](https://arxiv.org/abs/1707.06626)
+  3. [Soft Q-Learning BAIR Blogpost](https://bair.berkeley.edu/blog/2017/10/06/soft-q-learning/)
+  4. [Learning Self-Imitating Diverse Policies (an improved SVPG)](https://arxiv.org/abs/1805.10309)
+  5. [Bayesian MAML](https://arxiv.org/abs/1806.03836)
   
   **Questions**:
 
-  1. Exercises 1,2,3 from Section 8.7 of *CSE*.
-     <details><summary>Solution to Exercise 1</summary>
+  1. What are some of the issues with using the RBF kernel when comparing RL policies? Is parameter space appropriate for comparing policies?
+     <details><summary>Solution</summary>
      <p>
-     This follows immediately by noticing that the number of multiply-add operations of multiplying an \(N\times M\) matrix with an \(M\times P\) matrix is given by \(O(NMP)\). 
+     
      </p>
      </details>
-     <details><summary>Solution to Exercise 2</summary>
+   
+2. Hypothesize a new heuristic that adapts the bandwidth of the RBF kernel. In general, what are some issues that can arise with SVPG (and inherently, SVGD) in large spaces?
+     <details><summary>Solution</summary>
      <p>
-     Apply the chain rule. Since \(\frac{\partial C}{\partial S} = 2S\) and \(\frac{dT}{dS} = \frac{\partial T}{\partial S} + \frac{\partial T}{\partial C}\frac{\partial C}{\partial S}\), we get \(\frac{d T}{d S} = 1 -2S\).  
-     </p>
-     </details>
-     <details><summary>Solution to Exercise 3</summary>
-     <p>
-     This follows from Exercise 1 by seeing \(u^T\) and \(w^T\) as \(1\times N\) matrices and \(v\) as an \(N\times 1\) matrix. 
+    
      </p>
      </details>
 
-2. Consider the problem of optimizing a real-valued function $$g$$ over the solution of the ODE $$y'(t) = A(p)y(t)$$, $$y(0) = b(p)$$ at time $$T>0$$: $$\min_p\, g(T) \doteq g(y(T; p))$$. Find $$\frac{dg(T)}{dp}$$ by solving the ODE and by applying chain rule. Check the correctness of equations (16-17) in *CSE*.
+  3. In SVPG, the introduction of a prior (and priors in RL) is one active area of research. To incorporate priors in this framework, what "space" does the prior need to be over? 
      <details><summary>Solution</summary>
      <p>
-     It holds that
      
-     $$y(t) = e^{tA(p)}y(0)$$
-     
-     Applying the chain rule, we get
-     
-     $$\frac{dg}{dp} = \frac{dg}{dy}e^{TA(p)}\frac{db}{dp} + T\frac{dg}{dy}\frac{\partial A}{\partial p}e^{TA(p)}b(p)$$
-     
-     On the other hand, the adjoint ODE reads
-     
-     $$\lambda'(t) = -A(p)^T\lambda(t)$$
-     
-     with the final condition \(\lambda(T) = \left(\frac{\partial g}{\partial y}\right)^T\), which gives \(\lambda(t) = e^{A(p)^T(T-t)}\left(\frac{\partial g}{\partial y}\right)^T\). Equation (17) from <i>CSE</i> gives
-     
-     $$\frac{dg}{dp} = \left(e^{TA(p)^T}\left(\frac{\partial g}{\partial y}\right)^T\right)^T\frac{\partial b}{\partial p} + \int_0^T \frac{\partial g}{\partial y} e^{A(p)(T-t)}\frac{\partial A}{\partial p}e^{tA(p)}b(p)\,dt$$
-     
-     which coincides with the above.
      </p>
      </details>
-
-  3. Prove equations (14-15) in Section 8.7 of *CSE*.
+   
+   4. With the code implementation linked in the notes (or, your own), ablate on the architecture of each SVPG particle. What types of behavioral differences do you see in the different policies as you increase or decrease? Try adding a second layer instead; for example, how does a 2-layer, 200 neuron-per-layer network compare to a single-layer, 400 neuron particle?
      <details><summary>Solution</summary>
      <p>
-     By definition, it holds that
      
-     $$\frac{dG}{dp} = \int_0^T\left(\frac{\partial g}{\partial p} + \frac{\partial g}{\partial u}\frac{\partial u}{\partial p}\right)\,dt $$
-     
-     On the other hand, it holds that
-     
-     $$\lambda(0)^T\frac{\partial u}{\partial p}(0) + \int_0^T\lambda^T \frac{\partial f}{\partial p}\,dt = \int_0^T \left( \lambda^T\frac{\partial f}{\partial p} -\frac{d}{dt}\left( \lambda^T \frac{\partial u}{\partial p}\right) \right)\,dt $$
-     
-     Using equation (14) from <i>CSE</i> and the equality \(\frac{\partial u}{\partial p} = \frac{\partial f}{\partial p} + \frac{\partial f}{\partial u}\frac{\partial u}{\partial p}\), we get
-     
-     $$\int_0^T \left( \lambda^T\frac{\partial f}{\partial p} -\frac{d}{dt}\left( \lambda^T \frac{\partial u}{\partial p}\right) \right)\,dt = \int_0^T \left( \lambda^T\frac{\partial f}{\partial p} + \lambda^T \frac{\partial f}{\partial u}\frac{\partial u}{\partial p} + \frac{\partial g}{\partial u}\frac{\partial u}{\partial p} - \lambda^T \frac{\partial f}{\partial p} -\lambda^T \frac{\partial f}{\partial u}\frac{\partial u}{\partial p} \right)\,dt$$
-     
-     which gives 
-     
-     $$
-     \lambda(0)^T\frac{\partial u}{\partial p}(0) + \int_0^T \lambda^T\frac{\partial f}{\partial p}\,dt = \int_0^T \frac{\partial g}{\partial u}\frac{\partial u}{\partial p}\,dt
-     $$
-     
-     and thus completes the proof. 
      </p>
      </details>
 
 <br />
 
-# 6 The Paper
-  **Motivation**: Let’s read the paper! Here is a summary of what’s going on to help with your understanding:
-  
-  Any residual network can be seen as the Explicit Euler's method discretisation of a certain ODE; given the network parameters, any numerical ODE solver can be used to evaluate the output layer. The application of the adjoint method makes it possible to efficiently back-propagate (and thus train) these models. The same idea can be used to train time-continuous normalising flows. In this case, moving to the continuous formulation allows us to avoid the computation of the determinant of the Jacobian, one of the major bottlenecks of normalising flows. Neural ODEs can also be used to model latent dynamics in time-series modeling, allowing us to easily tackle irregularly sampled data.
-
-  **Topics**:
-
-  1. Normalising Flows.
-  2. End-to-end implementations with neural nets.
-
-  **Notes**: In this [class](/assets/nodes_notes/week6.pdf), we defined Neural ODEs and derived the respective adjoint method, essential for their implementation. We then discussed continuous normalising flows and the computational advantages offered by Neural ODEs in this setting.
-  
-  **Required Reading**:
-
-  1. [Neural Ordinary Differential Equations](https://arxiv.org/abs/1806.07366).
-  2. [A blog post on NeuralODEs](https://rkevingibson.github.io/blog/neural-networks-as-ordinary-differential-equations/).
-  
-  **Optional Reading**:
-
-  1. A follow-up paper by the authors on scalable continuous normalizing flows: [Free-form Continuous Dynamics for Scalable Reversible Generative Models](https://arxiv.org/abs/1810.01367).
-
-<br />
