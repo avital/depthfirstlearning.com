@@ -4,30 +4,28 @@ title:  "Stein Variational Gradient Descent"
 date:   2020-01-06 6:00:00 -0400
 categories: steins-method, stein-variational-gradient-descent, bayesian-inference
 author: bhairav
-blurb: "Neural Ordinary Differentiable Equations (Neural ODEs) are deep learning architectures which combine neural networks and ordinary differentiable equations, providing new models for the familiar litany of tasks ranging from supervised learning to generative modeling to time series forecasting. In this curriculum, we will dive deep into these models with an end goal of implementing them ourselves."
+blurb: "Stein Variational Gradient Descent is a powerful, non-parameteric Bayesian Inference algorithm, based on a tool called Stein's Method. In this guide, we work through the mathematics and fundamentals to understand Stein's Method, working our way to Kernelized Stein Discrepancy and, finally, Stein Variational Gradient Descent. We take Reinforcement Learning as an application area, and view SVGD from the lens of gradient flow, bringing new insights and applications to the SVGD toolbox."
 feedback: true
 ---
 
-This guide would not have been possible without the help and feedback from many people. 
+This guide is thanks to a many different people, all of whom took their time to give feedback, write reviews, and provide their own insights to the curriculum.
 
-Special thanks to Prof. Joan Bruna and his class at NYU, [Mathematics of Deep Learning](https://github.com/joanbruna/MathsDL-spring19), and to Cinjon Resnick, who introduced me to DFL and helped complete this guide.
+Special thanks to Cinjon Resnick, who patiently waited for months as I procrastinated the completion of this guide, as well as Professor Qiang Liu, who took the time to help shape the curriculum. 
 
-Thank you to Avital Oliver, Matt Johnson, Dougal MacClaurin, David Duvenaud, and Ricky Chen for useful contributions to this guide.
+Thank you to Calvin Woo, Sanyam Kapoor, Thomas Pinder, and Swapneel Mehta for useful contributions to this guide, as well as countless insights during our discussions.
 
-Thank you to Tinghao Li, Chandra Prakash Konkimalla, Manikanta Srikar Yellapragada, Shan-Conrad Wolf, Deshana Desai, Yi Tang, Zhonghui Hu for helping me prepare the notes.
+A special thanks to the many outside guests who offered to provide their time, including Dilin Wang, Tongzheng Ren, and Haoran Tang.
 
 Finally, thank you to all my fellow students who attended the recitations and provided valuable feedback.
 
 <div class="deps-graph">
 <iframe class="deps" src="/assets/nodes-deps.svg" width="200"></iframe>
-<div>Concepts used in Neural ODEs. Click to navigate.</div>
+<div>TODO: Concepts used in SVGD. Click to navigate.</div>
 </div>
 
 # Why
 
-Neural ODEs are neural network models which generalize standard layer to layer propagation to continuous depth models. Starting from the observation that the forward propagation in neural networks is equivalent to one step of discretation of an ODE, we can construct and efficiently train models via ODEs. On top of providing a novel family of architectures, notably for invertible density models and continuous time series, neural ODEs also provide a memory efficiency gain in supervised learning tasks.
-
-In this curriculum, we will go through all the background topics necessary to understand these models. At the end, you should be able to implement neural ODEs and apply them to different tasks.
+Stein's Method is a powerful statistical method, one that is at the disposal (and the focus) of many statisticians today. Recently, Stein's Method has made its way into machine learning and has already proved to be a fruitful research area. Stein's Method has deep connections to many machine learning problems of interest, and by the end of this guide, you should be able to understand the relevant mathematics behind this powerful tool.   
 
 <br />
 
@@ -59,30 +57,13 @@ In this curriculum, we will go through all the background topics necessary to un
   **Questions**:
 
   1. What are the conditions that determine whether a measure space is a probability space?
-     <details><summary>Solution</summary>
-     <p>
-     
-     </p>
-     </details>
 
   2. Explain the reproducing property in your own words.
-     <details><summary>Solution</summary>
-     <p>
-     </p>
-     </details>
 
   3. Given the means and standard deviations of N i.i.d gaussians (in a diagonal covariance matrix), write a python function that generates samples from that joint distribution and another that calculates the log-likelihood of any given sample.
 
-     <details><summary>Solution</summary>
-     <p>
-     </p>
-     </details>
-
   4. Explain what a [score function](https://en.wikipedia.org/wiki/Score_(statistics)) (\nabla_\theta \log p_\theta(x)) tells us and how it might be useful in machine learning. Implement the calculation of the score function of a multivariate normal distribution.
-     <details><summary>Solution</summary>
-     <p>
-     </p>
-     </details> 
+ 
 
 <br />
 
@@ -110,30 +91,13 @@ In this curriculum, we will go through all the background topics necessary to un
   **Questions**:
 
   1. Could you prove Lemma 2.2 from the KSD paper without looking at their proof? There is another illustrative way to prove this lemma - can you find it?
-     <details><summary>Solution</summary>
-     <p>
-    
-     </p>
-     </details>
    
-   2. What determines the choice of kernel in KSD? Are there kernels you can think of that don’t meet the necessary requirements.
-     <details><summary>Solution</summary>
-     <p>
-     </p>
-     </details>
+  2. What determines the choice of kernel in KSD? Are there kernels you can think of that don’t meet the necessary requirements.
 
-   3. What’s the difference of the score function introduced in KSD in Section 1 and 2 and the score function we see in last week’s questions?
-   <details><summary>Solution</summary>
-   <p>
-   </p>
-   </details>  
+  3. What’s the difference of the score function introduced in KSD in Section 1 and 2 and the score function we see in last week’s questions?
 
-   4. Show condition six (in the Kernelized Stein Discrepancy paper) holds through integration by parts.  Optionally, show this with the divergence theorem.
-   
-   <details><summary>Solution</summary>
-   <p>
-   </p>
-   </details>  
+  4. Show condition six (in the Kernelized Stein Discrepancy paper) holds through integration by parts.  Optionally, show this with the divergence theorem.
+  
 
 <br />
 
@@ -162,23 +126,10 @@ In this curriculum, we will go through all the background topics necessary to un
   **Questions**:
 
   1. Explicitly show why the “note” in the proof of Theorem 3.6 is true. Are there any cases where this doesn’t hold? Why or why not?
-     <details><summary>Solution</summary>
-     <p>
-     </p>
-     </details>
 
   2. In Section 4 of KSD, we can approximate the U-statistic with the V-statistic`. Why is that? And where is the bias incurred in this approximation?
-     <details><summary>Solution</summary>
-     <p>
-     
-     </p>
-     </details>
 
   3. Solve the maximization (Equation 2 of KSD) when the test function f is a linear combination of a finite number of features. What is this particular maximization’s relation to RKHS?
-     <details><summary>Solution</summary>
-     <p>
-     </p>
-     </details>
 
 <br />
 
@@ -190,7 +141,7 @@ In this curriculum, we will go through all the background topics necessary to un
   1. Stein Variational Gradient Descent
   2. Implementing the Algorithm
   
-  **Notes**: In this [class](/assets/nodes_notes/week4.pdf), we defined nomalising flow, starting from the non-parametric form and then deriving their algorithmic (and parametric) implementation. We concluded by discussing some architectures proposed in the literature and their trade-offs.
+  **Notes**: In this class, with notes in [Colab](https://colab.research.google.com/drive/1x3bgKtYWaYRTV1VGaf0bKRyQ_qxNZpjh) or [PDF - Coming Soon](#), we go over the core paper, Stein Variational Gradient Descent. At the end of the notes, we provide link to implementations in a variety of different languages. 
 
   **Required Reading**:
 
@@ -206,24 +157,10 @@ In this curriculum, we will go through all the background topics necessary to un
   **Questions**:
 
   1. Compare and contrast the method shown here and MCMC. What are some advantages MCMC still has over SVGD?
-     <details><summary>Solution</summary>
-     <p>
-     </p>
-     </details>
 
   2. Prove that the discrepancy in Equation 3 of the Stein Variational Gradient Descent Paper only equals 0 when $p$ and $q$ are equal.
-     <details><summary>Solution</summary>
-     <p>
 
-     </p>
-     </details>
-
-   3. Implement SVGD in your favorite language (see the notes for links to different implementations). Then, let’s take a look at the role of the kernel in SVGD: (a) Remove the repulsive kernel term and observe how particles collapse to modes. (b) Remove the kernel’s contribution in the first term. What happens?	
-     <details><summary>Solution</summary>
-     <p>
-
-     </p>
-     </details>
+  3. Implement SVGD in your favorite language (see the notes for links to different implementations). Then, let’s take a look at the role of the kernel in SVGD: (a) Remove the repulsive kernel term and observe how particles collapse to modes. (b) Remove the kernel’s contribution in the first term. What happens?	
 
 <br />
 
@@ -232,10 +169,11 @@ In this curriculum, we will go through all the background topics necessary to un
 
   **Topics**:
 
-  1. Adjoint Method.
-  2. Auto-Diff.
+  1. Reinforcement Learning
+  2. Explore vs. Exploit
+  3. Maximum Entropy Reinforcement Learning
 
-  **Notes**: In this [class](/assets/nodes_notes/week5.pdf), we discussed the adjoint method. We started from the case of linear system and went through non-linear equations and recurrent relations. We concluded by discussing their application to ODE constrained optimization problems, which is the case of interest for Neural ODEs.
+  **Notes**:  In this class, with notes in [Colab](https://colab.research.google.com/drive/1x3bgKtYWaYRTV1VGaf0bKRyQ_qxNZpjh) or [PDF - Coming Soon](#), we look at the application area of _Reinforcement Learning_, and see how the diversity induced by SVGD (and its connection to maxmimum entropy reinforcement learning) generates strongly-exploring policies. 
 
   **Required Reading**:
 
@@ -253,32 +191,12 @@ In this curriculum, we will go through all the background topics necessary to un
   **Questions**:
 
   1. What are some of the issues with using the RBF kernel when comparing RL policies? Is parameter space appropriate for comparing policies?
-     <details><summary>Solution</summary>
-     <p>
-     
-     </p>
-     </details>
-   
-2. Hypothesize a new heuristic that adapts the bandwidth of the RBF kernel. In general, what are some issues that can arise with SVPG (and inherently, SVGD) in large spaces?
-     <details><summary>Solution</summary>
-     <p>
-    
-     </p>
-     </details>
+
+  2. Hypothesize a new heuristic that adapts the bandwidth of the RBF kernel. In general, what are some issues that can arise with SVPG (and inherently, SVGD) in large spaces?
 
   3. In SVPG, the introduction of a prior (and priors in RL) is one active area of research. To incorporate priors in this framework, what "space" does the prior need to be over? 
-     <details><summary>Solution</summary>
-     <p>
-     
-     </p>
-     </details>
    
    4. With the code implementation linked in the notes (or, your own), ablate on the architecture of each SVPG particle. What types of behavioral differences do you see in the different policies as you increase or decrease? Try adding a second layer instead; for example, how does a 2-layer, 200 neuron-per-layer network compare to a single-layer, 400 neuron particle?
-     <details><summary>Solution</summary>
-     <p>
      
-     </p>
-     </details>
-
 <br />
 
