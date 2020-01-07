@@ -19,7 +19,7 @@ A special thanks to the many outside guests who offered to provide their time, i
 Finally, thank you to all my fellow students who attended the recitations and provided valuable feedback.
 
 <div class="deps-graph">
-<iframe class="deps" src="/assets/nodes-deps.svg" width="200"></iframe>
+<iframe class="deps" src="/assets/svgd-deps.svg" width="200"></iframe>
 <div>TODO: Concepts used in SVGD. Click to navigate.</div>
 </div>
 
@@ -141,7 +141,7 @@ Stein's Method is a powerful statistical method, one that is at the disposal (an
   1. Stein Variational Gradient Descent
   2. Implementing the Algorithm
   
-  **Notes**: In this class, with notes in [Colab](https://colab.research.google.com/drive/1x3bgKtYWaYRTV1VGaf0bKRyQ_qxNZpjh) or [PDF - Coming Soon](#), we go over the core paper, Stein Variational Gradient Descent. At the end of the notes, we provide link to implementations in a variety of different languages. 
+  **Notes**: In this class, with notes in [Colab](https://colab.research.google.com/drive/0B2rVTvobCLlWNEY4SENKdG1OQ3c) or [PDF - Coming Soon](#), we go over the core paper, Stein Variational Gradient Descent. At the end of the notes, we provide link to implementations in a variety of different languages. 
 
   **Required Reading**:
 
@@ -173,7 +173,7 @@ Stein's Method is a powerful statistical method, one that is at the disposal (an
   2. Explore vs. Exploit
   3. Maximum Entropy Reinforcement Learning
 
-  **Notes**:  In this class, with notes in [Colab](https://colab.research.google.com/drive/1x3bgKtYWaYRTV1VGaf0bKRyQ_qxNZpjh) or [PDF - Coming Soon](#), we look at the application area of _Reinforcement Learning_, and see how the diversity induced by SVGD (and its connection to maxmimum entropy reinforcement learning) generates strongly-exploring policies. 
+  **Notes**:  In this class, with notes in [Colab](https://colab.research.google.com/drive/178X8BgGrUmPaRTLulL_ETUKaBf-MfrgS) or [PDF - Coming Soon](#), we look at the application area of _Reinforcement Learning_, and see how the diversity induced by SVGD (and its connection to maxmimum entropy reinforcement learning) generates strongly-exploring policies. 
 
   **Required Reading**:
 
