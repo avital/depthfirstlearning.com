@@ -127,7 +127,7 @@ Stein's Method is a powerful statistical method, one that is at the disposal (an
 
   1. Explicitly show why the “note” in the proof of Theorem 3.6 is true. Are there any cases where this doesn’t hold? Why or why not?
 
-  2. In Section 4 of KSD, we can approximate the U-statistic with the V-statistic`. Why is that? And where is the bias incurred in this approximation?
+  2. In Section 4 of KSD, we can approximate the U-statistic with the V-statistic. Why is that? And where is the bias incurred in this approximation?
 
   3. Solve the maximization (Equation 2 of KSD) when the test function f is a linear combination of a finite number of features. What is this particular maximization’s relation to RKHS?
 
