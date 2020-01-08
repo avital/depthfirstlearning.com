@@ -40,7 +40,7 @@ Stein's Method is a powerful statistical method, one that is at the disposal (an
   3. Reproducing Kernel Hilbert Space
   4. Machine Learning Basics
 
-  **Notes**: In this class, with notes in [Colab](https://colab.research.google.com/drive/1x3bgKtYWaYRTV1VGaf0bKRyQ_qxNZpjh) or [PDF - Coming Soon](#), we went over the basic mathematical concepts we will need throughout the rest of the curriculum.
+  **Notes**: In this class, with notes in [Colab](https://colab.research.google.com/drive/1x3bgKtYWaYRTV1VGaf0bKRyQ_qxNZpjh) or [PDF](/assets/svgd_notes/week01.pdf), we went over the basic mathematical concepts we will need throughout the rest of the curriculum.
 
   **Required Reading**:
 
@@ -77,7 +77,7 @@ Stein's Method is a powerful statistical method, one that is at the disposal (an
   3. Stein Equation
   4. Stein's Identity
 
-  **Notes**: In this class, with notes in [Colab](https://colab.research.google.com/drive/1HqHSP9x01te7e33-zDR00vAsPX_M19h2) or [PDF - Coming Soon](#), we discussed the theoretical concepts behind Stein's method, and discussed different ways to interpret the core ideas.
+  **Notes**: In this class, with notes in [Colab](https://colab.research.google.com/drive/1HqHSP9x01te7e33-zDR00vAsPX_M19h2) or [PDF](/assets/svgd_notes/week02.pdf), we discussed the theoretical concepts behind Stein's method, and discussed different ways to interpret the core ideas.
 
   **Required Reading**:
 
@@ -110,7 +110,7 @@ Stein's Method is a powerful statistical method, one that is at the disposal (an
   2. Goodness of Fit
   3. Tractable Optimization of the Stein Discrepancy
 
-  **Notes**: In this class, with notes in [Colab](https://colab.research.google.com/drive/1V7zpm9U3TCjIM9DxeRWo6IEypDkZObrH) or [PDF - Coming Soon](#), we worked through the Kernelized Stein Discrepancy paper, focusing on the optimization and use cases of such a method.
+  **Notes**: In this class, with notes in [Colab](https://colab.research.google.com/drive/1V7zpm9U3TCjIM9DxeRWo6IEypDkZObrH) or [PDF](/assets/svgd_notes/week03.pdf), we worked through the Kernelized Stein Discrepancy paper, focusing on the optimization and use cases of such a method.
 
   **Required Reading**:
 
@@ -141,7 +141,7 @@ Stein's Method is a powerful statistical method, one that is at the disposal (an
   1. Stein Variational Gradient Descent
   2. Implementing the Algorithm
   
-  **Notes**: In this class, with notes in [Colab](https://colab.research.google.com/drive/0B2rVTvobCLlWNEY4SENKdG1OQ3c) or [PDF - Coming Soon](#), we go over the core paper, Stein Variational Gradient Descent. At the end of the notes, we provide link to implementations in a variety of different languages. 
+  **Notes**: In this class, with notes in [Colab](https://colab.research.google.com/drive/0B2rVTvobCLlWNEY4SENKdG1OQ3c) or [PDF](/assets/svgd_notes/week04.pdf), we go over the core paper, Stein Variational Gradient Descent. At the end of the notes, we provide link to implementations in a variety of different languages. 
 
   **Required Reading**:
 
@@ -173,7 +173,7 @@ Stein's Method is a powerful statistical method, one that is at the disposal (an
   2. Explore vs. Exploit
   3. Maximum Entropy Reinforcement Learning
 
-  **Notes**:  In this class, with notes in [Colab](https://colab.research.google.com/drive/178X8BgGrUmPaRTLulL_ETUKaBf-MfrgS) or [PDF - Coming Soon](#), we look at the application area of _Reinforcement Learning_, and see how the diversity induced by SVGD (and its connection to maxmimum entropy reinforcement learning) generates strongly-exploring policies. 
+  **Notes**:  In this class, with notes in [Colab](https://colab.research.google.com/drive/178X8BgGrUmPaRTLulL_ETUKaBf-MfrgS) or [PDF](/assets/svgd_notes/week06.pdf), we look at the application area of _Reinforcement Learning_, and see how the diversity induced by SVGD (and its connection to maxmimum entropy reinforcement learning) generates strongly-exploring policies. 
 
   **Required Reading**:
 
