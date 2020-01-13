@@ -56,15 +56,86 @@ Stein's Method is a powerful statistical method, one that is at the disposal (an
 
   **Questions**:
 
-  1. What are the conditions that determine whether a measure space is a probability space?
+  1. "However, Cauchy sequences are not the same as convergent sequences", but a property of Cauchy sequences is that they are bounded. What's the difference?
 
-  2. Explain the reproducing property in your own words.
+  <details><summary>Solution</summary>
+    <p>
+      Convergent sequences have a limit, but Cauchy sequences are only required to be bounded. But what exactly does bounded mean? Here's a proof that shows that they are bounded, which might shed some light on the definition itself:
 
-  3. Given the means and standard deviations of N i.i.d gaussians (in a diagonal covariance matrix), write a python function that generates samples from that joint distribution and another that calculates the log-likelihood of any given sample.
+      a. There exists $N$ such that $|a_n - a_m| < 1 \quad \forall m, n \geq N$ (Property of Cauchy Sequence iterates getting closer)
 
-  4. Explain what a [score function](https://en.wikipedia.org/wiki/Score_(statistics)) (\nabla_\theta \log p_\theta(x)) tells us and how it might be useful in machine learning. Implement the calculation of the score function of a multivariate normal distribution.
- 
+      b. $\implies \forall n \geq N, |a_n - a_N| < 1$ 
 
+      c. $a_n \in (a_N - 1, a_N + 1) \forall n \geq N$. ($n \geq N$ is bounded)
+
+      d. Since the sequence is $n < N$ is finite (since $N$ is finite), it is also bounded.
+
+      Therefore the Cauchy sequence $\{ a_n \}$ is bounded $\square$
+    </p>
+  </details>
+  
+  2. " The open interval (0, 1) is not complete whereas the closed interval [0, 1] is complete". Why? Can we use this example to get a intuitive definition of **complete**?
+
+  <details><summary>Solution</summary>
+    <p>
+      Intuitively, a space is complete if there are no "points missing" from it (inside or at the boundary). For instance, the set of rational numbers is not complete, because e.g. $\sqrt(2)$ is "missing" from it, even though one can construct a Cauchy sequence of rational numbers that converges to it. ([Wikipedia: Complete Metric Space](https://en.wikipedia.org/wiki/Complete_metric_space))
+    </p>
+  </details>
+
+  3. Explain the difference between a Banach and Hilbert Space. Is every Hilbert space a Banach space?
+
+  <details><summary>Solution</summary>
+    <p>
+      A Banach space is a vector space in which each vector has a non-negative length, or norm, and in which every Cauchy sequence converges to a point of the space. Also known as complete normed linear space.
+
+      A Hilbert space is a Banach space with inner product, which defines the norm.
+    </p>
+  </details>
+
+  4. In Machine Learning, kernels can be thought of as a "dot product" (a kind of similarity score) in high-dimensional space. Why would this be useful? Given a feature map, do we always have a corresponding kernel? Given any kernel, can we always explicitly write out the elements of the corresponding feature map?
+
+  <details><summary>Solution</summary>
+    <p>
+      Kernels (and the corresponding kernel trick) allow us to compute similarities in high-dimensional space without explicitly writing out and computing the dot product. 
+
+      However, not ever feature map corresponds to a kernel; there are certain properties a kernel must have, and not every feature map imbues it with those properties.
+
+      Likewise, given a kernel, it may be the case that we can never write out (explicitly) the corresponding feature map. A good example of this is the popular **exponential kernel**.
+    </p>
+  </details>
+
+  5. What is the goal of supervised learning? In a high-dimensional, supervised setting, what makes this hard?
+
+  <details><summary>Solution</summary>
+    <p>
+      We want to learn a distribution $p$ that fits the data generating distribution $q$, while still being flexible enough to do learning and inference tractibly / efficiently. In high dimensions, the bias-variance tradeoff in model selection can hit us hard, along with another whole host of problems.
+    </p>
+  </details>
+
+  6. Assume that we just need the log-likeihood in many machine learning tasks (not a completely false statement...) so that we can compute  KL(q||p) , and iteratively fit our model  p  to the underlying, generating data distribution  q . Why is this already too large of an assumption ("We assume that we have the ability to calculate the log-likelihood under the model that we specify")?
+
+  <details><summary>Solution</summary>
+    <p>
+      The dreaded normalization constant! Most models we see will give an unnormalized likelihood, and the normalization constant (which we will see in a few weeks, often denoted as $Z$) is intractable to compute. We need the normalization constant to bring a probability function to a probability **density**function.
+    </p>
+  </details>
+
+  7. What is the use of Monte-Carlo methods in machine learning?
+
+  <details><summary>Solution</summary>
+    <p>
+      They are a way to estimate quantities in the presence of complex, many-random-variable situations. They do so by repeatedly generating (via simulation) instances from which they estimate the quantities. 
+    </p>
+  </details>
+
+  8. Explain the reproducing property in your own words.
+
+  <details><summary>Solution</summary>
+    <p>
+      [Sanyam Kapoor's](TODO) answer from our class was: "Every feature map is a linear combination of the full Hilbert space weighted by the kernel evaluations."
+    </p>
+  </details>
+  
 <br />
 
 # 2 Stein's Method
@@ -90,14 +161,33 @@ Stein's Method is a powerful statistical method, one that is at the disposal (an
   
   **Questions**:
 
-  1. Could you prove Lemma 2.2 from the KSD paper without looking at their proof? There is another illustrative way to prove this lemma - can you find it?
    
-  2. What determines the choice of kernel in KSD? Are there kernels you can think of that don’t meet the necessary requirements.
+  1. What determines the choice of kernel in KSD?
 
-  3. What’s the difference of the score function introduced in KSD in Section 1 and 2 and the score function we see in last week’s questions?
+    <details><summary>Solution</summary>
+      <p>
+          Since KSD requires an RKHS for optimization, the kernel _must_ be positive definite. However, whenever given a positive definite kernel $K$, we can always build an associated RKHS as follows. 
 
-  4. Show condition six (in the Kernelized Stein Discrepancy paper) holds through integration by parts.  Optionally, show this with the divergence theorem.
-  
+          If we take $H$ as the Hilbert space of functions $f: \mathcal{X} \rightarrow \mathbf{R}$ defined on some set $\mathcal{X}$ with some inner product $\langle \cdot, \cdot \rangle_H defined on $H$, then we can define the _evaluation functional_ $e_x: H \rightarrow \mathbf{R}$ as $f \rightarrow e_x(f) = f(x).
+
+          Using the above definitions, our space $H$ is an RKHS iff the evaluation functionals are continuous. As we saw in the notes, we call the given kernel $K$ a _reproducing kernel_ if:
+
+          1. $K(x, \cdot), \; \forall x \in \mathcal{X}$ 
+          2. $\langle f, K_x \rangle = f(x) \; \forall f \in H, \forall x \in \mathcal{X}$.
+
+          Thus, every reproducing kernel $K$ induces a unique RKHS given the kernel is positive definite. 
+
+          Excitingly, in the context of machine learning, positive definite kernels themselves can be defined in terms of inner products. Therefore, we can generate arbitrary kernels and RKHS with some feature map $\Phi: \mathcal{X} \rightarrow \mathcal{F}$ where feature space $\mathcal{F}$ is a Hilbert space with some inner product $\langle \cdot, \cdot \rangle. 
+      </p>
+    </details>
+
+  2. Show condition six (in the Kernelized Stein Discrepancy paper) holds through integration by parts.   
+    <details><summary>Solution</summary>
+      <p>
+        The proof via divergence theorem is inside of the paper (assuming a compact space $\mathcal{X}$), so we review the proof via IBP here.
+
+      </p>
+    </details>
 
 <br />
 
@@ -125,11 +215,7 @@ Stein's Method is a powerful statistical method, one that is at the disposal (an
 
   **Questions**:
 
-  1. Explicitly show why the “note” in the proof of Theorem 3.6 is true. Are there any cases where this doesn’t hold? Why or why not?
-
-  2. In Section 4 of KSD, we can approximate the U-statistic with the V-statistic. Why is that? And where is the bias incurred in this approximation?
-
-  3. Solve the maximization (Equation 2 of KSD) when the test function f is a linear combination of a finite number of features. What is this particular maximization’s relation to RKHS?
+  1. Imagine the test function f is a linear combination of a finite number of features. What is this particular maximization’s relation to RKHS?
 
 <br />
 
@@ -161,6 +247,8 @@ Stein's Method is a powerful statistical method, one that is at the disposal (an
   2. Prove that the discrepancy in Equation 3 of the Stein Variational Gradient Descent Paper only equals 0 when $p$ and $q$ are equal.
 
   3. Implement SVGD in your favorite language (see the notes for links to different implementations). Then, let’s take a look at the role of the kernel in SVGD: (a) Remove the repulsive kernel term and observe how particles collapse to modes. (b) Remove the kernel’s contribution in the first term. What happens?	
+
+  4. What 
 
 <br />
 
