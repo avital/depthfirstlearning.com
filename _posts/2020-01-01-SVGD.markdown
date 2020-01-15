@@ -62,23 +62,23 @@ Stein's Method is a powerful statistical method, one that is at the disposal (an
     <p>
       Convergent sequences have a limit, but Cauchy sequences are only required to be bounded. But what exactly does bounded mean? Here's a proof that shows that they are bounded, which might shed some light on the definition itself:
 
-      a. There exists $N$ such that $|a_n - a_m| < 1 \quad \forall m, n \geq N$ (Property of Cauchy Sequence iterates getting closer)
+      a. There exists \(N\) such that \(|a_n - a_m| < 1 \quad \forall m, n \geq N\) (Property of Cauchy Sequence iterates getting closer)
 
-      b. $\implies \forall n \geq N, |a_n - a_N| < 1$ 
+      b. \(\implies \forall n \geq N, |a_n - a_N| < 1\) 
 
-      c. $a_n \in (a_N - 1, a_N + 1) \forall n \geq N$. ($n \geq N$ is bounded)
+      c. \(a_n \in (a_N - 1, a_N + 1) \forall n \geq N\). (\(n \geq N\) is bounded)
 
-      d. Since the sequence is $n < N$ is finite (since $N$ is finite), it is also bounded.
+      d. Since the sequence is \(n < N\) is finite (since \(N\) is finite), it is also bounded.
 
-      Therefore the Cauchy sequence $\{ a_n \}$ is bounded $\square$
+      Therefore the Cauchy sequence \(\{ a_n \}\) is bounded \(\square\)
     </p>
   </details>
   
-  2. " The open interval (0, 1) is not complete whereas the closed interval [0, 1] is complete". Why? Can we use this example to get a intuitive definition of **complete**?
+  2. "The open interval (0, 1) is not complete whereas the closed interval [0, 1] is complete." Why? Can we use this example to get a intuitive definition of **complete**?
 
   <details><summary>Solution</summary>
     <p>
-      Intuitively, a space is complete if there are no "points missing" from it (inside or at the boundary). For instance, the set of rational numbers is not complete, because e.g. $\sqrt(2)$ is "missing" from it, even though one can construct a Cauchy sequence of rational numbers that converges to it. ([Wikipedia: Complete Metric Space](https://en.wikipedia.org/wiki/Complete_metric_space))
+      Intuitively, a space is complete if there are no "points missing" from it (inside or at the boundary). For instance, the set of rational numbers is not complete, because e.g. \(\sqrt(2)\) is "missing" from it, even though one can construct a Cauchy sequence of rational numbers that converges to it. More information can be found at <a href="https://en.wikipedia.org/wiki/Complete_metric_space">Wikipedia: Complete Metric Space.</a>
     </p>
   </details>
 
@@ -108,15 +108,15 @@ Stein's Method is a powerful statistical method, one that is at the disposal (an
 
   <details><summary>Solution</summary>
     <p>
-      We want to learn a distribution $p$ that fits the data generating distribution $q$, while still being flexible enough to do learning and inference tractibly / efficiently. In high dimensions, the bias-variance tradeoff in model selection can hit us hard, along with another whole host of problems.
+      We want to learn a distribution \(p\) that fits the data generating distribution \(q\), while still being flexible enough to do learning and inference tractibly / efficiently. In high dimensions, the bias-variance tradeoff in model selection can hit us hard, along with another whole host of problems.
     </p>
   </details>
 
-  6. Assume that we just need the log-likeihood in many machine learning tasks (not a completely false statement...) so that we can compute  KL(q||p) , and iteratively fit our model  p  to the underlying, generating data distribution  q . Why is this already too large of an assumption ("We assume that we have the ability to calculate the log-likelihood under the model that we specify")?
+  6. Assume that we just need the log-likeihood in many machine learning tasks so that we can compute  KL\((q||p)\) , and iteratively fit our model \(p\) to the underlying, generating data distribution \(q\). Why is this already too large of an assumption ("We assume that we have the ability to calculate the log-likelihood under the model that we specify")?
 
   <details><summary>Solution</summary>
     <p>
-      The dreaded normalization constant! Most models we see will give an unnormalized likelihood, and the normalization constant (which we will see in a few weeks, often denoted as $Z$) is intractable to compute. We need the normalization constant to bring a probability function to a probability **density**function.
+      The dreaded normalization constant! Most models we see will give an unnormalized likelihood, and the normalization constant (which we will see in a few weeks, often denoted as \(Z\)) is intractable to compute. We need the normalization constant to bring a probability function to a probability **density**function.
     </p>
   </details>
 
@@ -132,7 +132,7 @@ Stein's Method is a powerful statistical method, one that is at the disposal (an
 
   <details><summary>Solution</summary>
     <p>
-      [Sanyam Kapoor's](TODO) answer from our class was: "Every feature map is a linear combination of the full Hilbert space weighted by the kernel evaluations."
+      Sanyam Kapoor's answer from our class was: "Every feature map is a linear combination of the full Hilbert space weighted by the kernel evaluations."
     </p>
   </details>
   
@@ -162,27 +162,27 @@ Stein's Method is a powerful statistical method, one that is at the disposal (an
   
   **Questions**:
 
-  1. Prove Stein's Identity for a standard Gaussian random variable $Z$.
+  1. Prove Stein's Identity for a standard Gaussian random variable \(Z\).
 
   <details><summary>Solution</summary>
     <p>
-      Recall that Stein's Identity tells us that for a unit-normal random variable $Z$ (i.e $Z \sim \mathcal{N}(0, 1)$):
+      Recall that Stein's Identity tells us that for a unit-normal random variable \(Z\) (i.e \(Z \sim \mathcal{N}(0, 1)\)):
 
       $$ \mathbf{E}f'(Z) = \mathbf{E}Zf(Z)$$
 
-      for all absolutely continuous functions $f$ with $\mathbf{E}[f'(Z)] < \infty$. 
+      for all absolutely continuous functions \(f\) with \( \mathbf{E}[f'(Z)] < \infty \). 
 
       To start, we state, without proof, that the density function of the unit normal Gaussian:
 
-      $$ p(z) = \frac{1}{sqrt{2\pi}}e^{\frac{-z^2}{2}} $$
+      $$ p(z) = \frac{1}{\sqrt{2\pi}}e^{\frac{-z^2}{2}} $$
 
-      satisfies $zp(z) = p'(z)$.
+      satisfies \( zp(z) = p'(z) \).
 
-      For some normal $Z$, we can break the left hand side of the original identity into two integrals:
+      For some normal \(Z\), we can break the left hand side of the original identity into two integrals:
 
-      $$\mathbf{E}f'(Z) = \int_0^\infty f'(z)p(z)dz + \int_{-\infty}^0 f'(z)p(z)dz$$
+      $$\mathbf{E}f'(Z) = \int_0^\infty f'(z)p(z)dz + \int_{-\infty}^0 f'(z)p(z)dz $$
 
-      For each left-hand side integral, we use [Fubini's Theorem](https://en.wikipedia.org/wiki/Fubini%27s_theorem):
+      For each left-hand side integral, we use <a href="https://en.wikipedia.org/wiki/Fubini%27s_theorem">Fubini's Theorem</a>:
 
       $$ \int_0^\infty f'(z)p(z)dz = \int_0^\infty f'(z) \int_z^\infty yp(y)dydz $$
 
@@ -194,7 +194,7 @@ Stein's Method is a powerful statistical method, one that is at the disposal (an
 
       $$ \int_0^\infty f'(z)p(z)dz = \int_0^\infty  [f(y) - f(0)] yp(y)dy $$
 
-      For the second integral, it evaluates to $ \int_{-\infty}^0  [f(y) - f(0)] yp(y)dy $
+      For the second integral, it evaluates to \( \int_{-\infty}^0  [f(y) - f(0)] yp(y)dy \)
 
       When we combine each individual result, we get:
 
@@ -208,31 +208,31 @@ Stein's Method is a powerful statistical method, one that is at the disposal (an
 
   <details><summary>Solution</summary>
     <p>
-      Stein's Identity in the converse as well; if the identity holds, we can conclude the random variable, which we call $W$, is also normal. However, if the two are _approximately_ equal, then Stein's Identity also lets us conclude that $W$ is also _approximately_ normal. Stein's Identity and Method are used to quantify this "approximately" term, which we briefly discuss below.
+      Stein's Identity in the converse as well; if the identity holds, we can conclude the random variable, which we call \(W\), is also normal. However, if the two are _approximately_ equal, then Stein's Identity also lets us conclude that \(W\) is also _approximately_ normal. Stein's Identity and Method are used to quantify this "approximately" term, which we briefly discuss below.
 
-      Probability metrics (between two random variables $X$ and $Y$) take the general form of:
+      Probability metrics (between two random variables \(X\) and \(Y\)) take the general form of:
 
       $$d(X, Y) = \sup_{h \in \mathcal{H}} | \mathbf{E}h(X) - \mathbf{E}h(Y) |$$ 
 
-      for some class of functions $\mathcal{H}$. We normally want to bound the distances between the corresponding distribution functions $P$ and $Q$, but that choice is less important for this brief discussion.
+      for some class of functions \( \mathcal{H} \). We normally want to bound the distances between the corresponding distribution functions \(P \) and \(Q \), but that choice is less important for this brief discussion.
 
       When we choose different classes of functions, we can recover various distances that we often use (in machine learning) to compare probability distributions, such as the Kolmorgov or Wasserstein distance. 
 
-      We get to the Stein Discrepancy by measuring the distance between $W$ to our standard normal $Z$ via:
+      We get to the Stein Discrepancy by measuring the distance between \(W\) to our standard normal \(Z\) via:
 
       $$ \mathbf{E}h(W) - \mathcal{N}h $$ 
 
-      where $\mathcal{N}h = \mathbf{E}h$ for $h \in \mathcal{H}$.
+      where \(\mathcal{N}h = \mathbf{E}h\) for \(h \in \mathcal{H}\).
 
       Stein's Identity tells us that the discrepancy can also be measured by:
 
       $$ \mathbf{E}[f'(W) - Wf(W)]$$
 
-      which, when we evaluate at $w$, gives us the Stein Equation:
+      which, when we evaluate at \(w\), gives us the Stein Equation:
 
       $$ f'(w) - wf(w) = h(w) -  \mathcal{N}h $$
 
-      Since we're trying to bound: $mathbf{E}h(W) -  \mathcal{N}h$, we can now instead bound the LHS, which turns out to be a lot easier once we account for all of the boundary conditions.
+      Since we're trying to bound: \(\mathbf{E}h(W) -  \mathcal{N}h\), we can now instead bound the LHS, which turns out to be a lot easier once we account for all of the boundary conditions.
     </p>
   </details>
 
@@ -266,18 +266,24 @@ Stein's Method is a powerful statistical method, one that is at the disposal (an
 
   <details><summary>Solution</summary>
     <p>
-        Since KSD requires an RKHS for optimization, the kernel _must_ be positive definite. However, whenever given a positive definite kernel $K$, we can always build an associated RKHS as follows. 
+        Since KSD requires an RKHS for optimization, the kernel _must_ be positive definite. However, whenever given a positive definite kernel \(K\), we can always build an associated RKHS as follows. 
 
-        If we take $H$ as the Hilbert space of functions $f: \mathcal{X} \rightarrow \mathbf{R}$ defined on some set $\mathcal{X}$ with some inner product $\langle \cdot, \cdot \rangle_H defined on $H$, then we can define the _evaluation functional_ $e_x: H \rightarrow \mathbf{R}$ as $f \rightarrow e_x(f) = f(x).
+        If we take \(H\) as the Hilbert space of functions \(f: \mathcal{X} \rightarrow \mathbf{R}\) defined on some set \(\mathcal{X}\) with some inner product \( \langle \cdot, \cdot \rangle_H \) defined on \(H\), then we can define the _evaluation functional_ \(e_x: H \rightarrow \mathbf{R}\) as \(f \rightarrow e_x(f) = f(x) \).
 
-        Using the above definitions, our space $H$ is an RKHS iff the evaluation functionals are continuous. As we saw in the notes, we call the given kernel $K$ a _reproducing kernel_ if:
+        Using the above definitions, our space \( H\) is an RKHS iff the evaluation functionals are continuous. As we saw in the notes, we call the given kernel \(K\) a _reproducing kernel_ if:
 
-        1. $K(x, \cdot), \; \forall x \in \mathcal{X}$ 
-        2. $\langle f, K_x \rangle = f(x) \; \forall f \in H, \forall x \in \mathcal{X}$.
+        <br />
 
-        Thus, every reproducing kernel $K$ induces a unique RKHS given the kernel is positive definite. 
+        1. \(K(x, \cdot), \; \forall x \in \mathcal{X}\) 
 
-        Excitingly, in the context of machine learning, positive definite kernels themselves can be defined in terms of inner products. Therefore, we can generate arbitrary kernels and RKHS with some feature map $\Phi: \mathcal{X} \rightarrow \mathcal{F}$ where feature space $\mathcal{F}$ is a Hilbert space with some inner product $\langle \cdot, \cdot \rangle. 
+        <br />
+        2. \(\langle f, K_x \rangle = f(x) \; \forall f \in H, \forall x \in \mathcal{X}\).
+
+        <br />
+
+        Thus, every reproducing kernel \( K\) induces a unique RKHS given the kernel is positive definite. 
+
+        Excitingly, in the context of machine learning, positive definite kernels themselves can be defined in terms of inner products. Therefore, we can generate arbitrary kernels and RKHS with some feature map \( \Phi: \mathcal{X} \rightarrow \mathcal{F}\) where feature space \( \mathcal{F}\) is a Hilbert space with some inner product \( \langle \cdot, \cdot \rangle \). 
     </p>
   </details>
 
@@ -312,15 +318,15 @@ Stein's Method is a powerful statistical method, one that is at the disposal (an
       <p>
           Below are some ideas we discussed in our class. 
 
-          1. SVGD requires a compact subspace $\mathcal{X}$, and as noted [here in Chen '19](http://proceedings.mlr.press/v97/chen19b/chen19b.pdf), requires the number of particles to be fixed apriori.
+          1. SVGD requires a compact subspace \( \mathcal{X} \), and as noted <a href="http://proceedings.mlr.press/v97/chen19b/chen19b.pdf">here in Chen '19</a>, requires the number of particles to be fixed apriori.
 
-          2. SVGD has a lot less theoretical understanding compared to MCMC (which, is potentially due to the recency of the result). SVGD has had analysis done in the infinite-particle regime, but minimal work done in finite particle scenarios (an example of such work can be found [here](https://papers.nips.cc/paper/8101-stein-variational-gradient-descent-as-moment-matching.pdf)). A concern of theoretical analysis is the complexity of analyzing the interacting particle updates, so the works covered here either view it from a dynamical systems / differential equation perspective (which concerns the smooth transformation of density), or discuss the properties of the final particles, regardless of how they were algorithmically attained.
+          2. SVGD has a lot less theoretical understanding compared to MCMC (which, is potentially due to the recency of the result). SVGD has had analysis done in the infinite-particle regime, but minimal work done in finite particle scenarios (an example of such work can be found <a href="https://papers.nips.cc/paper/8101-stein-variational-gradient-descent-as-moment-matching.pdf">here</a>. A concern of theoretical analysis is the complexity of analyzing the interacting particle updates, so the works covered here either view it from a dynamical systems / differential equation perspective (which concerns the smooth transformation of density), or discuss the properties of the final particles, regardless of how they were algorithmically attained.
 
-          3. SVGD still seems to collapse in high-dimensional spaces, leading to exciting new research in [why this occurs](https://arxiv.org/abs/1902.03394) and [how to stop it.](https://arxiv.org/abs/1711.04425).
+          3. SVGD still seems to collapse in high-dimensional spaces, leading to exciting new research in <a href="https://arxiv.org/abs/1902.03394">why this occurs</a> and <a href="https://arxiv.org/abs/1711.04425">ideas on how to get around it</a>.
     </p>
   </details>
 
-  2. Prove that the discrepancy in Equation 3 of the Stein Variational Gradient Descent Paper only equals 0 when $p$ and $q$ are equal.
+  2. Prove that the discrepancy in Equation 3 of the Stein Variational Gradient Descent Paper only equals 0 when \(p\) and \(q\) are equal.
 
   <details><summary>Solution</summary>
     <p>
@@ -328,7 +334,7 @@ Stein's Method is a powerful statistical method, one that is at the disposal (an
 
       $$ \mathbf{E}_p[\mathcal{A}_pf(x)] = 0$$
 
-      If $p \neq q$, we get $\mathbf{E}_q[\mathcal{A}_pf(x)]$ for some choice of function $f$.
+      If \( p \neq q \), we get \( \mathbf{E}_q[\mathcal{A}_pf(x)] \) for some choice of function \( f \).
 
       We can expand this to:
 
@@ -338,11 +344,11 @@ Stein's Method is a powerful statistical method, one that is at the disposal (an
 
       $$\mathcal{A}_pf(x) = \mathbf{E}_p[s_p(x)f(x) + \nabla_x f(x)] = 0$$
 
-      where score function $s_p(x)$ is just $\nabla_x \log p(x)$, we are left with
+      where score function \( s_p(x) \) is just \( \nabla_x \log p(x) \), we are left with
 
       $$\mathbf{E}_q[(s_p(x) - s_q(x))f(x)]$$
 
-      This means unless $p = q \rightarrow s_p(x) = s_q(x) \; \forall x \in \mathcal{X}$, we can always find some function $f$ for which the above quantity is nonzero.
+      This means unless \(p = q \rightarrow s_p(x) = s_q(x) \; \forall x \in \mathcal{X} \), we can always find some function \(f\) for which the above quantity is nonzero.
 
     </p>
   </details>
@@ -389,7 +395,7 @@ Stein's Method is a powerful statistical method, one that is at the disposal (an
 
   <details><summary>Solution</summary>
     <p>
-      SVPG incorporates a prior over $q$, which is actually a prior over the distribution of particle _parameters_ $\theta$. Since this space is uninterpretable, the prior term is set to be a constant, generating an "improper" prior that, in most use cases, can get dropped out of the optimization. Even if you were to use an old set of particles as a prior, the term is basically unusable, because in order to estimate the density of $q$, you'd need to fit high-dimensional ($d = \mathbf{R}^{|\theta|}$) kernel-density estimators. In addition, usually the number of particles used is much less than the number of parameters each has, making the density estimation an ill-posed problem.
+      SVPG incorporates a prior over \(q \), which is actually a prior over the distribution of particle _parameters_ \(\theta\). Since this space is uninterpretable, the prior term is set to be a constant, generating an "improper" prior that, in most use cases, can get dropped out of the optimization. Even if you were to use an old set of particles as a prior, the term is basically unusable, because in order to estimate the density of \(q\), you'd need to fit high-dimensional ( \( d = \mathbf{R}^{|\theta|} \)) kernel-density estimators. In addition, usually the number of particles used is much less than the number of parameters each has, making the density estimation an ill-posed problem.
     </p>
   </details>
    
