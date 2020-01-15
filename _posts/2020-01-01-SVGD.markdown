@@ -74,7 +74,7 @@ Stein's Method is a powerful statistical method, one that is at the disposal (an
     </p>
   </details>
   
-  2. "The open interval (0, 1) is not complete whereas the closed interval [0, 1] is complete." Why? Can we use this example to get a intuitive definition of **complete**?
+  2. "The open interval (0, 1) is not complete whereas the closed interval [0, 1] is complete." Why? Can we use this example to get a intuitive definition of complete?
 
   <details><summary>Solution</summary>
     <p>
@@ -100,7 +100,7 @@ Stein's Method is a powerful statistical method, one that is at the disposal (an
 
       However, not ever feature map corresponds to a kernel; there are certain properties a kernel must have, and not every feature map imbues it with those properties.
 
-      Likewise, given a kernel, it may be the case that we can never write out (explicitly) the corresponding feature map. A good example of this is the popular **exponential kernel**.
+      Likewise, given a kernel, it may be the case that we can never write out (explicitly) the corresponding feature map. A good example of this is the popular exponential kernel.
     </p>
   </details>
 
@@ -116,7 +116,7 @@ Stein's Method is a powerful statistical method, one that is at the disposal (an
 
   <details><summary>Solution</summary>
     <p>
-      The dreaded normalization constant! Most models we see will give an unnormalized likelihood, and the normalization constant (which we will see in a few weeks, often denoted as \(Z\)) is intractable to compute. We need the normalization constant to bring a probability function to a probability **density**function.
+      The dreaded normalization constant! Most models we see will give an unnormalized likelihood, and the normalization constant (which we will see in a few weeks, often denoted as \(Z\)) is intractable to compute. We need the normalization constant to bring a probability function to a probability density function.
     </p>
   </details>
 
@@ -208,7 +208,7 @@ Stein's Method is a powerful statistical method, one that is at the disposal (an
 
   <details><summary>Solution</summary>
     <p>
-      Stein's Identity in the converse as well; if the identity holds, we can conclude the random variable, which we call \(W\), is also normal. However, if the two are _approximately_ equal, then Stein's Identity also lets us conclude that \(W\) is also _approximately_ normal. Stein's Identity and Method are used to quantify this "approximately" term, which we briefly discuss below.
+      Stein's Identity in the converse as well; if the identity holds, we can conclude the random variable, which we call \(W\), is also normal. However, if the two quantities in Stein's Identity are approximately equal, then Stein's Identity also lets us conclude that \(W\) is also approximately normal. Stein's Identity and Method are used to quantify this "approximately" term, which we briefly discuss below.
 
       Probability metrics (between two random variables \(X\) and \(Y\)) take the general form of:
 
@@ -266,11 +266,11 @@ Stein's Method is a powerful statistical method, one that is at the disposal (an
 
   <details><summary>Solution</summary>
     <p>
-        Since KSD requires an RKHS for optimization, the kernel _must_ be positive definite. However, whenever given a positive definite kernel \(K\), we can always build an associated RKHS as follows. 
+        Since KSD requires an RKHS for optimization, the kernel must be positive definite. However, whenever given a positive definite kernel \(K\), we can always build an associated RKHS as follows. 
 
-        If we take \(H\) as the Hilbert space of functions \(f: \mathcal{X} \rightarrow \mathbf{R}\) defined on some set \(\mathcal{X}\) with some inner product \( \langle \cdot, \cdot \rangle_H \) defined on \(H\), then we can define the _evaluation functional_ \(e_x: H \rightarrow \mathbf{R}\) as \(f \rightarrow e_x(f) = f(x) \).
+        If we take \(H\) as the Hilbert space of functions \(f: \mathcal{X} \rightarrow \mathbf{R}\) defined on some set \(\mathcal{X}\) with some inner product \( \langle \cdot, \cdot \rangle_H \) defined on \(H\), then we can define the evaluation functional \(e_x: H \rightarrow \mathbf{R}\) as \(f \rightarrow e_x(f) = f(x) \).
 
-        Using the above definitions, our space \( H\) is an RKHS iff the evaluation functionals are continuous. As we saw in the notes, we call the given kernel \(K\) a _reproducing kernel_ if:
+        Using the above definitions, our space \( H\) is an RKHS iff the evaluation functionals are continuous. As we saw in the notes, we call the given kernel \(K\) a reproducing kernel if:
 
         <br />
 
@@ -387,7 +387,7 @@ Stein's Method is a powerful statistical method, one that is at the disposal (an
 
   <details><summary>Solution</summary>
     <p>
-      While it works in practice, the networks used for particles in the original SVPG paper were reasonably small. With larger numbers of parameters (i.e which are necessary when working with image-based observations), parameter-based discrepancies start to make even _less_ sense. This is one of two core ideas that drove the formulation of the Self-Imitating Diverse Policies paper, seen as Resource 4 in Optional Reading.
+      While it works in practice, the networks used for particles in the original SVPG paper were reasonably small. With larger numbers of parameters (i.e which are necessary when working with image-based observations), parameter-based discrepancies start to make even less sense. This is one of two core ideas that drove the formulation of the Self-Imitating Diverse Policies paper, seen as Resource 4 in Optional Reading.
     </p>
   </details>
 
@@ -395,7 +395,7 @@ Stein's Method is a powerful statistical method, one that is at the disposal (an
 
   <details><summary>Solution</summary>
     <p>
-      SVPG incorporates a prior over \(q \), which is actually a prior over the distribution of particle _parameters_ \(\theta\). Since this space is uninterpretable, the prior term is set to be a constant, generating an "improper" prior that, in most use cases, can get dropped out of the optimization. Even if you were to use an old set of particles as a prior, the term is basically unusable, because in order to estimate the density of \(q\), you'd need to fit high-dimensional ( \( d = \mathbf{R}^{|\theta|} \)) kernel-density estimators. In addition, usually the number of particles used is much less than the number of parameters each has, making the density estimation an ill-posed problem.
+      SVPG incorporates a prior over \(q \), which is actually a prior over the distribution of particle parameters \(\theta\). Since this space is uninterpretable, the prior term is set to be a constant, generating an "improper" prior that, in most use cases, can get dropped out of the optimization. Even if you were to use an old set of particles as a prior, the term is basically unusable, because in order to estimate the density of \(q\), you'd need to fit high-dimensional ( \( d = \mathbf{R}^{|\theta|} \)) kernel-density estimators. In addition, usually the number of particles used is much less than the number of parameters each has, making the density estimation an ill-posed problem.
     </p>
   </details>
    
