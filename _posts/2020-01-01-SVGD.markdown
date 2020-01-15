@@ -20,7 +20,7 @@ Finally, thank you to all my fellow students who attended the recitations and pr
 
 <div class="deps-graph">
 <iframe class="deps" src="/assets/svgd-deps.svg" width="200"></iframe>
-<div>TODO: Concepts used in SVGD. Click to navigate.</div>
+<div>Concepts used in SVGD. Click to navigate.</div>
 </div>
 
 # Why
@@ -29,7 +29,7 @@ Stein's Method is a powerful statistical method, one that is at the disposal (an
 
 <br />
 
-# 1 Introduction + Basics Behind Kernelized Stein Discrepancy
+# 1 Basics Behind Kernelized Stein Discrepancy
   **Motivation**: Before jumping into all the math and methodology, we have to be able to  understand the basics of what’s going on. Most importantly, we will review the basics of measure theory and reproducing kernel hilbert spaces. Measure theory allows us to understand the notion of discrepancy measures between distributions, which we will use later on to quantify the difference between two arbitrary distributions of interest. Our other topic, Reproducing Kernel Hilbert Spaces (RKHS), will serve as the connection between measure theory and a practical machine learning algorithm. With RKHS, we will be able to define and optimize intractable measures which previously, were only useful for theoretical analysis or a restrictive class of functions. These two together set the foundation for defining a tractable Kernelized Stein Discrepancy, which serves as the driving factor behind Stein Variational Gradient Descent. 
 
 
