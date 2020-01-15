@@ -158,36 +158,83 @@ Stein's Method is a powerful statistical method, one that is at the disposal (an
   **Optional Reading**:
 
   1. [A Short History of Stein's Method](https://arxiv.org/abs/1404.1392).
+  2. [Gentle Introduction to Stein's Method](http://www.ims.nus.edu.sg/Programs/stein09/files/A%20Gentle%20Introduction%201.pdf)
   
   **Questions**:
 
-   
-  1. What determines the choice of kernel in KSD?
+  1. Prove Stein's Identity for a standard Gaussian random variable $Z$.
 
-    <details><summary>Solution</summary>
-      <p>
-          Since KSD requires an RKHS for optimization, the kernel _must_ be positive definite. However, whenever given a positive definite kernel $K$, we can always build an associated RKHS as follows. 
+  <details><summary>Solution</summary>
+    <p>
+      Recall that Stein's Identity tells us that for a unit-normal random variable $Z$ (i.e $Z \sim \mathcal{N}(0, 1)$):
 
-          If we take $H$ as the Hilbert space of functions $f: \mathcal{X} \rightarrow \mathbf{R}$ defined on some set $\mathcal{X}$ with some inner product $\langle \cdot, \cdot \rangle_H defined on $H$, then we can define the _evaluation functional_ $e_x: H \rightarrow \mathbf{R}$ as $f \rightarrow e_x(f) = f(x).
+      $$ \mathbf{E}f'(Z) = \mathbf{E}Zf(Z)$$
 
-          Using the above definitions, our space $H$ is an RKHS iff the evaluation functionals are continuous. As we saw in the notes, we call the given kernel $K$ a _reproducing kernel_ if:
+      for all absolutely continuous functions $f$ with $\mathbf{E}[f'(Z)] < \infty$. 
 
-          1. $K(x, \cdot), \; \forall x \in \mathcal{X}$ 
-          2. $\langle f, K_x \rangle = f(x) \; \forall f \in H, \forall x \in \mathcal{X}$.
+      To start, we state, without proof, that the density function of the unit normal Gaussian:
 
-          Thus, every reproducing kernel $K$ induces a unique RKHS given the kernel is positive definite. 
+      $$ p(z) = \frac{1}{sqrt{2\pi}}e^{\frac{-z^2}{2}} $$
 
-          Excitingly, in the context of machine learning, positive definite kernels themselves can be defined in terms of inner products. Therefore, we can generate arbitrary kernels and RKHS with some feature map $\Phi: \mathcal{X} \rightarrow \mathcal{F}$ where feature space $\mathcal{F}$ is a Hilbert space with some inner product $\langle \cdot, \cdot \rangle. 
-      </p>
-    </details>
+      satisfies $zp(z) = p'(z)$.
 
-  2. Show condition six (in the Kernelized Stein Discrepancy paper) holds through integration by parts.   
-    <details><summary>Solution</summary>
-      <p>
-        The proof via divergence theorem is inside of the paper (assuming a compact space $\mathcal{X}$), so we review the proof via IBP here.
+      For some normal $Z$, we can break the left hand side of the original identity into two integrals:
 
-      </p>
-    </details>
+      $$\mathbf{E}f'(Z) = \int_0^\infty f'(z)p(z)dz + \int_{-\infty}^0 f'(z)p(z)dz$$
+
+      For each left-hand side integral, we use [Fubini's Theorem](https://en.wikipedia.org/wiki/Fubini%27s_theorem):
+
+      $$ \int_0^\infty f'(z)p(z)dz = \int_0^\infty f'(z) \int_z^\infty yp(y)dydz $$
+
+      $$ \int_0^\infty f'(z)p(z)dz = \int_0^\infty  \int_z^\infty f'(z)yp(y)dydz $$
+
+      $$ \int_0^\infty f'(z)p(z)dz = \int_0^\infty  \int_0^y f'(z)yp(y)dzdy $$
+
+      Leading us to our final integral:
+
+      $$ \int_0^\infty f'(z)p(z)dz = \int_0^\infty  [f(y) - f(0)] yp(y)dy $$
+
+      For the second integral, it evaluates to $ \int_{-\infty}^0  [f(y) - f(0)] yp(y)dy $
+
+      When we combine each individual result, we get:
+
+      $$ \mathbf{E}f'(Z) = \mathbf{E}Z[f(Z) - f(0)] = \mathbf{E}Zf(Z)$$
+
+      which proves the forward direction. 
+    </p>
+  </details>
+
+  2. Explain why Stein's Identity is useful. 
+
+  <details><summary>Solution</summary>
+    <p>
+      Stein's Identity in the converse as well; if the identity holds, we can conclude the random variable, which we call $W$, is also normal. However, if the two are _approximately_ equal, then Stein's Identity also lets us conclude that $W$ is also _approximately_ normal. Stein's Identity and Method are used to quantify this "approximately" term, which we briefly discuss below.
+
+      Probability metrics (between two random variables $X$ and $Y$) take the general form of:
+
+      $$d(X, Y) = \sup_{h \in \mathcal{H}} | \mathbf{E}h(X) - \mathbf{E}h(Y) |$$ 
+
+      for some class of functions $\mathcal{H}$. We normally want to bound the distances between the corresponding distribution functions $P$ and $Q$, but that choice is less important for this brief discussion.
+
+      When we choose different classes of functions, we can recover various distances that we often use (in machine learning) to compare probability distributions, such as the Kolmorgov or Wasserstein distance. 
+
+      We get to the Stein Discrepancy by measuring the distance between $W$ to our standard normal $Z$ via:
+
+      $$ \mathbf{E}h(W) - \mathcal{N}h $$ 
+
+      where $\mathcal{N}h = \mathbf{E}h$ for $h \in \mathcal{H}$.
+
+      Stein's Identity tells us that the discrepancy can also be measured by:
+
+      $$ \mathbf{E}[f'(W) - Wf(W)]$$
+
+      which, when we evaluate at $w$, gives us the Stein Equation:
+
+      $$ f'(w) - wf(w) = h(w) -  \mathcal{N}h $$
+
+      Since we're trying to bound: $mathbf{E}h(W) -  \mathcal{N}h$, we can now instead bound the LHS, which turns out to be a lot easier once we account for all of the boundary conditions.
+    </p>
+  </details>
 
 <br />
 
@@ -215,7 +262,24 @@ Stein's Method is a powerful statistical method, one that is at the disposal (an
 
   **Questions**:
 
-  1. Imagine the test function f is a linear combination of a finite number of features. What is this particular maximization’s relation to RKHS?
+  1. What determines the choice of kernel in KSD?
+
+  <details><summary>Solution</summary>
+    <p>
+        Since KSD requires an RKHS for optimization, the kernel _must_ be positive definite. However, whenever given a positive definite kernel $K$, we can always build an associated RKHS as follows. 
+
+        If we take $H$ as the Hilbert space of functions $f: \mathcal{X} \rightarrow \mathbf{R}$ defined on some set $\mathcal{X}$ with some inner product $\langle \cdot, \cdot \rangle_H defined on $H$, then we can define the _evaluation functional_ $e_x: H \rightarrow \mathbf{R}$ as $f \rightarrow e_x(f) = f(x).
+
+        Using the above definitions, our space $H$ is an RKHS iff the evaluation functionals are continuous. As we saw in the notes, we call the given kernel $K$ a _reproducing kernel_ if:
+
+        1. $K(x, \cdot), \; \forall x \in \mathcal{X}$ 
+        2. $\langle f, K_x \rangle = f(x) \; \forall f \in H, \forall x \in \mathcal{X}$.
+
+        Thus, every reproducing kernel $K$ induces a unique RKHS given the kernel is positive definite. 
+
+        Excitingly, in the context of machine learning, positive definite kernels themselves can be defined in terms of inner products. Therefore, we can generate arbitrary kernels and RKHS with some feature map $\Phi: \mathcal{X} \rightarrow \mathcal{F}$ where feature space $\mathcal{F}$ is a Hilbert space with some inner product $\langle \cdot, \cdot \rangle. 
+    </p>
+  </details>
 
 <br />
 
@@ -244,11 +308,46 @@ Stein's Method is a powerful statistical method, one that is at the disposal (an
 
   1. Compare and contrast the method shown here and MCMC. What are some advantages MCMC still has over SVGD?
 
+  <details><summary>Solution</summary>
+      <p>
+          Below are some ideas we discussed in our class. 
+
+          1. SVGD requires a compact subspace $\mathcal{X}$, and as noted [here in Chen '19](http://proceedings.mlr.press/v97/chen19b/chen19b.pdf), requires the number of particles to be fixed apriori.
+
+          2. SVGD has a lot less theoretical understanding compared to MCMC (which, is potentially due to the recency of the result). SVGD has had analysis done in the infinite-particle regime, but minimal work done in finite particle scenarios (an example of such work can be found [here](https://papers.nips.cc/paper/8101-stein-variational-gradient-descent-as-moment-matching.pdf)). A concern of theoretical analysis is the complexity of analyzing the interacting particle updates, so the works covered here either view it from a dynamical systems / differential equation perspective (which concerns the smooth transformation of density), or discuss the properties of the final particles, regardless of how they were algorithmically attained.
+
+          3. SVGD still seems to collapse in high-dimensional spaces, leading to exciting new research in [why this occurs](https://arxiv.org/abs/1902.03394) and [how to stop it.](https://arxiv.org/abs/1711.04425).
+    </p>
+  </details>
+
   2. Prove that the discrepancy in Equation 3 of the Stein Variational Gradient Descent Paper only equals 0 when $p$ and $q$ are equal.
 
-  3. Implement SVGD in your favorite language (see the notes for links to different implementations). Then, let’s take a look at the role of the kernel in SVGD: (a) Remove the repulsive kernel term and observe how particles collapse to modes. (b) Remove the kernel’s contribution in the first term. What happens?	
+  <details><summary>Solution</summary>
+    <p>
+      Recall the operator definition of Stein's Identity:
 
-  4. What 
+      $$ \mathbf{E}_p[\mathcal{A}_pf(x)] = 0$$
+
+      If $p \neq q$, we get $\mathbf{E}_q[\mathcal{A}_pf(x)]$ for some choice of function $f$.
+
+      We can expand this to:
+
+      $$\mathbf{E}_q[\mathcal{A}_pf(x)] - \mathbf{E}_q[\mathcal{A}_qf(x)]$$
+
+      Recalling the full definition of the operator:
+
+      $$\mathcal{A}_pf(x) = \mathbf{E}_p[s_p(x)f(x) + \nabla_x f(x)] = 0$$
+
+      where score function $s_p(x)$ is just $\nabla_x \log p(x)$, we are left with
+
+      $$\mathbf{E}_q[(s_p(x) - s_q(x))f(x)]$$
+
+      This means unless $p = q \rightarrow s_p(x) = s_q(x) \; \forall x \in \mathcal{X}$, we can always find some function $f$ for which the above quantity is nonzero.
+
+    </p>
+  </details>
+
+  3. Implement SVGD in your favorite language (see the notes for links to different implementations). Then, let’s take a look at the role of the kernel in SVGD: (a) Remove the repulsive kernel term and observe how particles collapse to modes. (b) Remove the kernel’s contribution in the first term. What happens?	
 
 <br />
 
@@ -280,11 +379,21 @@ Stein's Method is a powerful statistical method, one that is at the disposal (an
 
   1. What are some of the issues with using the RBF kernel when comparing RL policies? Is parameter space appropriate for comparing policies?
 
-  2. Hypothesize a new heuristic that adapts the bandwidth of the RBF kernel. In general, what are some issues that can arise with SVPG (and inherently, SVGD) in large spaces?
+  <details><summary>Solution</summary>
+    <p>
+      While it works in practice, the networks used for particles in the original SVPG paper were reasonably small. With larger numbers of parameters (i.e which are necessary when working with image-based observations), parameter-based discrepancies start to make even _less_ sense. This is one of two core ideas that drove the formulation of the Self-Imitating Diverse Policies paper, seen as Resource 4 in Optional Reading.
+    </p>
+  </details>
 
-  3. In SVPG, the introduction of a prior (and priors in RL) is one active area of research. To incorporate priors in this framework, what "space" does the prior need to be over? 
+  2. In SVPG, the introduction of a prior (and priors in RL) is one active area of research. To incorporate priors in this framework, what "space" does the prior need to be over? 
+
+  <details><summary>Solution</summary>
+    <p>
+      SVPG incorporates a prior over $q$, which is actually a prior over the distribution of particle _parameters_ $\theta$. Since this space is uninterpretable, the prior term is set to be a constant, generating an "improper" prior that, in most use cases, can get dropped out of the optimization. Even if you were to use an old set of particles as a prior, the term is basically unusable, because in order to estimate the density of $q$, you'd need to fit high-dimensional ($d = \mathbf{R}^{|\theta|}$) kernel-density estimators. In addition, usually the number of particles used is much less than the number of parameters each has, making the density estimation an ill-posed problem.
+    </p>
+  </details>
    
-   4. With the code implementation linked in the notes (or, your own), ablate on the architecture of each SVPG particle. What types of behavioral differences do you see in the different policies as you increase or decrease? Try adding a second layer instead; for example, how does a 2-layer, 200 neuron-per-layer network compare to a single-layer, 400 neuron particle?
+  3. With the code implementation linked in the notes (or, your own), ablate on the architecture of each SVPG particle. What types of behavioral differences do you see in the different policies as you increase or decrease? Try adding a second layer instead; for example, how does a 2-layer, 200 neuron-per-layer network compare to a single-layer, 400 neuron particle?
      
 <br />
 
