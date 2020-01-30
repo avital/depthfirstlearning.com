@@ -57,84 +57,71 @@ Stein's Method is a powerful statistical method, one that is at the disposal (an
   **Questions**:
 
   1. "However, Cauchy sequences are not the same as convergent sequences", but a property of Cauchy sequences is that they are bounded. What's the difference?
-
-  <details><summary>Solution</summary>
-    <p>
+     <details><summary>Solution</summary>
+     <p>
       Convergent sequences have a limit, but Cauchy sequences are only required to be bounded. But what exactly does bounded mean? Here's a proof that shows that they are bounded, which might shed some light on the definition itself:
-
-      a. There exists \(N\) such that \(|a_n - a_m| < 1 \quad \forall m, n \geq N\) (Property of Cauchy Sequence iterates getting closer)
-
-      b. \(\implies \forall n \geq N, |a_n - a_N| < 1\) 
-
-      c. \(a_n \in (a_N - 1, a_N + 1) \forall n \geq N\). (\(n \geq N\) is bounded)
-
-      d. Since the sequence is \(n < N\) is finite (since \(N\) is finite), it is also bounded.
-
+      <br />
+      <p>
+      <b>a.</b> There exists \(N\) such that \(|a_n - a_m| < 1 \quad \forall m, n \geq N\) (Property of Cauchy Sequence iterates getting closer)
+      <br />
+      <b>b.</b> \(\implies \forall n \geq N, |a_n - a_N| < 1\) 
+      <br />
+      <b>c.</b> \(a_n \in (a_N - 1, a_N + 1) \forall n \geq N\). (\(n \geq N\) is bounded)
+      <br />
+      <b>d.</b> Since the sequence is \(n < N\) is finite (since \(N\) is finite), it is also bounded.
+      </p>
       Therefore the Cauchy sequence \(\{ a_n \}\) is bounded \(\square\)
     </p>
-  </details>
-  
+    </details>	
   2. "The open interval (0, 1) is not complete whereas the closed interval [0, 1] is complete." Why? Can we use this example to get a intuitive definition of complete?
-
-  <details><summary>Solution</summary>
-    <p>
-      Intuitively, a space is complete if there are no "points missing" from it (inside or at the boundary). For instance, the set of rational numbers is not complete, because e.g. \(\sqrt(2)\) is "missing" from it, even though one can construct a Cauchy sequence of rational numbers that converges to it. More information can be found at <a href="https://en.wikipedia.org/wiki/Complete_metric_space">Wikipedia: Complete Metric Space.</a>
-    </p>
-  </details>
-
+     <details><summary>Solution</summary>
+     <p>
+      Intuitively, a space is complete if there are no "points missing" from it (inside or at the boundary). For instance, the set of rational numbers is not complete, because e.g. \(\sqrt{2}\) is "missing" from it, even though one can construct a Cauchy sequence of rational numbers that converges to it. More information can be found at <a href="https://en.wikipedia.org/wiki/Complete_metric_space">Wikipedia: Complete Metric Space.</a>
+     </p>
+     </details>
   3. Explain the difference between a Banach and Hilbert Space. Is every Hilbert space a Banach space?
-
-  <details><summary>Solution</summary>
-    <p>
+     <details><summary>Solution</summary>
+     <p>
       A Banach space is a vector space in which each vector has a non-negative length, or norm, and in which every Cauchy sequence converges to a point of the space. Also known as complete normed linear space.
 
       A Hilbert space is a Banach space with inner product, which defines the norm.
-    </p>
-  </details>
-
+     </p>
+     </details>
   4. In Machine Learning, kernels can be thought of as a "dot product" (a kind of similarity score) in high-dimensional space. Why would this be useful? Given a feature map, do we always have a corresponding kernel? Given any kernel, can we always explicitly write out the elements of the corresponding feature map?
-
-  <details><summary>Solution</summary>
-    <p>
+     <details><summary>Solution</summary>
+     <p>
       Kernels (and the corresponding kernel trick) allow us to compute similarities in high-dimensional space without explicitly writing out and computing the dot product. 
 
       However, not ever feature map corresponds to a kernel; there are certain properties a kernel must have, and not every feature map imbues it with those properties.
 
       Likewise, given a kernel, it may be the case that we can never write out (explicitly) the corresponding feature map. A good example of this is the popular exponential kernel.
-    </p>
-  </details>
-
+     </p>
+     </details>
   5. What is the goal of supervised learning? In a high-dimensional, supervised setting, what makes this hard?
-
-  <details><summary>Solution</summary>
-    <p>
+     <h3>Avital question: Is this really about supervised learning? One possible goal of <u><b>un</b></u>supervised learning is to learn a distribution that matches a data generating distribution. In supervised learning we care about learning p(y|x), not p. Or maybe that's what this was intended to be about?</h3>
+     <details><summary>Solution</summary>
+     <p>
       We want to learn a distribution \(p\) that fits the data generating distribution \(q\), while still being flexible enough to do learning and inference tractibly / efficiently. In high dimensions, the bias-variance tradeoff in model selection can hit us hard, along with another whole host of problems.
-    </p>
-  </details>
-
-  6. Assume that we just need the log-likeihood in many machine learning tasks so that we can compute  KL\((q||p)\) , and iteratively fit our model \(p\) to the underlying, generating data distribution \(q\). Why is this already too large of an assumption ("We assume that we have the ability to calculate the log-likelihood under the model that we specify")?
-
-  <details><summary>Solution</summary>
-    <p>
+     </p>
+     </details>
+  6. Assume that we just need the log-likeihood in many machine learning tasks so that we can compute  $$KL(q||p)$$ , and iteratively fit our model $$p$$ to the underlying, generating data distribution $$q$$. Why is this already too large of an assumption ("We assume that we have the ability to calculate the log-likelihood under the model that we specify")?
+     <details><summary>Solution</summary>
+     <p>
       The dreaded normalization constant! Most models we see will give an unnormalized likelihood, and the normalization constant (which we will see in a few weeks, often denoted as \(Z\)) is intractable to compute. We need the normalization constant to bring a probability function to a probability density function.
-    </p>
-  </details>
-
+     </p>
+     </details>
   7. What is the use of Monte-Carlo methods in machine learning?
-
-  <details><summary>Solution</summary>
-    <p>
+     <details><summary>Solution</summary>
+     <p>
       They are a way to estimate quantities in the presence of complex, many-random-variable situations. They do so by repeatedly generating (via simulation) instances from which they estimate the quantities. 
-    </p>
-  </details>
-
+     </p>
+     </details>
   8. Explain the reproducing property in your own words.
-
-  <details><summary>Solution</summary>
-    <p>
+     <details><summary>Solution</summary>
+     <p>
       Sanyam Kapoor's answer from our class was: "Every feature map is a linear combination of the full Hilbert space weighted by the kernel evaluations."
-    </p>
-  </details>
+     </p>
+     </details>
   
 <br />
 
@@ -162,10 +149,9 @@ Stein's Method is a powerful statistical method, one that is at the disposal (an
   
   **Questions**:
 
-  1. Prove Stein's Identity for a standard Gaussian random variable \(Z\).
-
-  <details><summary>Solution</summary>
-    <p>
+  1. Prove Stein's Identity for a standard Gaussian random variable $$Z$$.
+     <details><summary>Solution</summary>
+     <p>
       Recall that Stein's Identity tells us that for a unit-normal random variable \(Z\) (i.e \(Z \sim \mathcal{N}(0, 1)\)):
 
       $$ \mathbf{E}f'(Z) = \mathbf{E}Zf(Z)$$
@@ -201,13 +187,11 @@ Stein's Method is a powerful statistical method, one that is at the disposal (an
       $$ \mathbf{E}f'(Z) = \mathbf{E}Z[f(Z) - f(0)] = \mathbf{E}Zf(Z)$$
 
       which proves the forward direction. 
-    </p>
-  </details>
-
+     </p>
+     </details>
   2. Explain why Stein's Identity is useful. 
-
-  <details><summary>Solution</summary>
-    <p>
+     <details><summary>Solution</summary>
+     <p>
       Stein's Identity in the converse as well; if the identity holds, we can conclude the random variable, which we call \(W\), is also normal. However, if the two quantities in Stein's Identity are approximately equal, then Stein's Identity also lets us conclude that \(W\) is also approximately normal. Stein's Identity and Method are used to quantify this "approximately" term, which we briefly discuss below.
 
       Probability metrics (between two random variables \(X\) and \(Y\)) take the general form of:
@@ -233,9 +217,8 @@ Stein's Method is a powerful statistical method, one that is at the disposal (an
       $$ f'(w) - wf(w) = h(w) -  \mathcal{N}h $$
 
       Since we're trying to bound: \(\mathbf{E}h(W) -  \mathcal{N}h\), we can now instead bound the LHS, which turns out to be a lot easier once we account for all of the boundary conditions.
-    </p>
-  </details>
-
+     </p>
+     </details>
 <br />
 
 # 3 Kernelized Stein Discrepancy
@@ -274,10 +257,10 @@ Stein's Method is a powerful statistical method, one that is at the disposal (an
 
         <br />
 
-        1. \(K(x, \cdot), \; \forall x \in \mathcal{X}\) 
+        <b>1.</b> \(K(x, \cdot), \; \forall x \in \mathcal{X}\) 
 
         <br />
-        2. \(\langle f, K_x \rangle = f(x) \; \forall f \in H, \forall x \in \mathcal{X}\).
+        <b>2.</b> \(\langle f, K_x \rangle = f(x) \; \forall f \in H, \forall x \in \mathcal{X}\).
 
         <br />
 
@@ -313,23 +296,20 @@ Stein's Method is a powerful statistical method, one that is at the disposal (an
   **Questions**:
 
   1. Compare and contrast the method shown here and MCMC. What are some advantages MCMC still has over SVGD?
-
-  <details><summary>Solution</summary>
+     <details><summary>Solution</summary>
       <p>
-          Below are some ideas we discussed in our class. 
+          Below are some ideas we discussed in our class. <br/>
 
-          1. SVGD requires a compact subspace \( \mathcal{X} \), and as noted <a href="http://proceedings.mlr.press/v97/chen19b/chen19b.pdf">here in Chen '19</a>, requires the number of particles to be fixed apriori.
+          <b>1.</b> SVGD requires a compact subspace \( \mathcal{X} \), and as noted <a href="http://proceedings.mlr.press/v97/chen19b/chen19b.pdf">here in Chen '19</a>, requires the number of particles to be fixed apriori.<br/>
 
-          2. SVGD has a lot less theoretical understanding compared to MCMC (which, is potentially due to the recency of the result). SVGD has had analysis done in the infinite-particle regime, but minimal work done in finite particle scenarios (an example of such work can be found <a href="https://papers.nips.cc/paper/8101-stein-variational-gradient-descent-as-moment-matching.pdf">here</a>. A concern of theoretical analysis is the complexity of analyzing the interacting particle updates, so the works covered here either view it from a dynamical systems / differential equation perspective (which concerns the smooth transformation of density), or discuss the properties of the final particles, regardless of how they were algorithmically attained.
+          <b>2.</b> SVGD has a lot less theoretical understanding compared to MCMC (which, is potentially due to the recency of the result). SVGD has had analysis done in the infinite-particle regime, but minimal work done in finite particle scenarios (an example of such work can be found <a href="https://papers.nips.cc/paper/8101-stein-variational-gradient-descent-as-moment-matching.pdf">here</a>. A concern of theoretical analysis is the complexity of analyzing the interacting particle updates, so the works covered here either view it from a dynamical systems / differential equation perspective (which concerns the smooth transformation of density), or discuss the properties of the final particles, regardless of how they were algorithmically attained.<br/>
 
-          3. SVGD still seems to collapse in high-dimensional spaces, leading to exciting new research in <a href="https://arxiv.org/abs/1902.03394">why this occurs</a> and <a href="https://arxiv.org/abs/1711.04425">ideas on how to get around it</a>.
-    </p>
-  </details>
-
+          <b>3.</b> SVGD still seems to collapse in high-dimensional spaces, leading to exciting new research in <a href="https://arxiv.org/abs/1902.03394">why this occurs</a> and <a href="https://arxiv.org/abs/1711.04425">ideas on how to get around it</a>.
+     </p>
+     </details>
   2. Prove that the discrepancy in Equation 3 of the Stein Variational Gradient Descent Paper only equals 0 when \(p\) and \(q\) are equal.
-
-  <details><summary>Solution</summary>
-    <p>
+     <details><summary>Solution</summary>
+     <p>
       Recall the operator definition of Stein's Identity:
 
       $$ \mathbf{E}_p[\mathcal{A}_pf(x)] = 0$$
@@ -350,10 +330,15 @@ Stein's Method is a powerful statistical method, one that is at the disposal (an
 
       This means unless \(p = q \rightarrow s_p(x) = s_q(x) \; \forall x \in \mathcal{X} \), we can always find some function \(f\) for which the above quantity is nonzero.
 
-    </p>
-  </details>
-
-  3. Implement SVGD in your favorite language (see the notes for links to different implementations). Then, let’s take a look at the role of the kernel in SVGD: (a) Remove the repulsive kernel term and observe how particles collapse to modes. (b) Remove the kernel’s contribution in the first term. What happens?	
+     </p>
+     </details>
+  3. Implement SVGD in your favorite language (see the notes for links to different implementations). Then, let’s take a look at the role of the kernel in SVGD:
+    
+     (a) Remove the repulsive kernel term and observe how particles collapse to modes.
+    
+     (b) Remove the kernel’s contribution in the first term.
+    
+     What happens?	
 
 <br />
 
@@ -384,20 +369,19 @@ Stein's Method is a powerful statistical method, one that is at the disposal (an
   **Questions**:
 
   1. What are some of the issues with using the RBF kernel when comparing RL policies? Is parameter space appropriate for comparing policies?
-
-  <details><summary>Solution</summary>
-    <p>
+     <details><summary>Solution</summary>
+     <p>
       While it works in practice, the networks used for particles in the original SVPG paper were reasonably small. With larger numbers of parameters (i.e which are necessary when working with image-based observations), parameter-based discrepancies start to make even less sense. This is one of two core ideas that drove the formulation of the Self-Imitating Diverse Policies paper, seen as Resource 4 in Optional Reading.
-    </p>
-  </details>
+     </p>
+     </details>
 
   2. In SVPG, the introduction of a prior (and priors in RL) is one active area of research. To incorporate priors in this framework, what "space" does the prior need to be over? 
 
-  <details><summary>Solution</summary>
-    <p>
+     <details><summary>Solution</summary>
+     <p>
       SVPG incorporates a prior over \(q \), which is actually a prior over the distribution of particle parameters \(\theta\). Since this space is uninterpretable, the prior term is set to be a constant, generating an "improper" prior that, in most use cases, can get dropped out of the optimization. Even if you were to use an old set of particles as a prior, the term is basically unusable, because in order to estimate the density of \(q\), you'd need to fit high-dimensional ( \( d = \mathbf{R}^{|\theta|} \)) kernel-density estimators. In addition, usually the number of particles used is much less than the number of parameters each has, making the density estimation an ill-posed problem.
-    </p>
-  </details>
+     </p>
+     </details>
    
   3. With the code implementation linked in the notes (or, your own), ablate on the architecture of each SVPG particle. What types of behavioral differences do you see in the different policies as you increase or decrease? Try adding a second layer instead; for example, how does a 2-layer, 200 neuron-per-layer network compare to a single-layer, 400 neuron particle?
      
